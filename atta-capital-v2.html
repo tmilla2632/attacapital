@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATTA Capital — Just a Guy Trading Futures</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #000;
+  --red-core: #ff1500;
+  --red-mid: #cc0000;
+  --orange: #ff6600;
+  --yellow: #ffcc00;
+  --green-heat: #00ff44;
+  --blue-flame: #1a44ff;
+  --blue-deep: #0a1aaa;
+  --blue-glow: #4488ff;
+  --purple: #9933cc;
+  --purple-light: #cc66ff;
+  --lavender: #bb88ff;
+  --white: #ffffff;
+  --smoke: #0a0a1a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: #000;
+  color: #ccc;
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--red-core);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 8px var(--red-core), 0 0 20px rgba(255,21,0,0.5);
+  transition: transform 0.08s;
+}
+.cursor-ring {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(255,21,0,0.5);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: all 0.12s ease;
+}
+
+/* SCROLL PROGRESS */
+.scroll-line {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--blue-flame), var(--purple), var(--red-core), var(--orange), var(--yellow));
+  z-index: 600;
+  box-shadow: 0 0 12px var(--red-core);
+}
+
+/* ===================== NAV ===================== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  padding: 18px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(0,0,0,0.97) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(255,21,0,0.12);
+}
+
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: 6px;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+
+.nav-logo-text {
+  background: linear-gradient(180deg, #fff 0%, var(--lavender) 40%, var(--red-core) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(153,51,204,0.6));
+  position: relative;
+  z-index: 2;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 36px;
+}
+
+.nav-links a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--lavender);
+  text-shadow: 0 0 10px var(--purple);
+}
+
+.nav-cta {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border: 1px solid var(--red-core);
+  color: var(--white);
+  background: linear-gradient(180deg, rgba(255,21,0,0.15) 0%, rgba(153,51,204,0.1) 100%);
+  transition: all 0.25s;
+  box-shadow: 0 0 14px rgba(255,21,0,0.2), inset 0 0 10px rgba(255,21,0,0.05);
+}
+
+.nav-cta:hover {
+  background: linear-gradient(180deg, rgba(255,21,0,0.3) 0%, rgba(153,51,204,0.2) 100%);
+  box-shadow: 0 0 30px rgba(255,21,0,0.5);
+}
+
+/* ===================== HERO ===================== */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 120px 40px 80px;
+  background: radial-gradient(ellipse at 50% 60%, #0a001a 0%, #000 65%);
+}
+
+/* Flame SVG background */
+.hero-flames {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 55%;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* Blue atmosphere circle */
+.hero-orb {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -46%);
+  width: min(700px, 90vw);
+  height: min(700px, 90vw);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 70%,
+    rgba(10,26,170,0.55) 0%,
+    rgba(26,68,255,0.25) 35%,
+    rgba(153,51,204,0.12) 60%,
+    transparent 75%
+  );
+  pointer-events: none;
+  animation: orb-pulse 5s ease-in-out infinite;
+}
+
+@keyframes orb-pulse {
+  0%,100% { opacity:1; transform: translate(-50%,-46%) scale(1); }
+  50% { opacity:0.75; transform: translate(-50%,-46%) scale(1.04); }
+}
+
+/* Smoke at bottom */
+.hero-smoke {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(0deg, rgba(10,26,170,0.25) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 900px;
+}
+
+.hero-eyebrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 7px;
+  text-transform: uppercase;
+  color: var(--blue-glow);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: rise 0.8s ease 0.4s forwards;
+  text-shadow: 0 0 12px var(--blue-flame);
+}
+
+/* MAIN TITLE — heat gradient + multi-stroke */
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: rise 0.9s ease 0.6s forwards;
+  position: relative;
+  display: inline-block;
+}
+
+.title-line {
+  display: block;
+}
+
+.title-heat {
+  background: linear-gradient(180deg,
+    #fff 0%,
+    var(--lavender) 20%,
+    var(--purple-light) 40%,
+    var(--red-core) 70%,
+    #800000 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 25px rgba(153,51,204,0.7)) drop-shadow(0 0 50px rgba(255,21,0,0.3));
+  position: relative;
+}
+
+.title-flame {
+  background: linear-gradient(180deg,
+    var(--white) 0%,
+    var(--yellow) 20%,
+    var(--orange) 45%,
+    var(--red-core) 70%,
+    #600 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 30px rgba(255,102,0,0.8)) drop-shadow(0 0 60px rgba(255,21,0,0.4));
+  animation: flicker 3s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%,100% { filter: drop-shadow(0 0 30px rgba(255,102,0,0.8)) drop-shadow(0 0 60px rgba(255,21,0,0.4)); }
+  33% { filter: drop-shadow(0 0 40px rgba(255,102,0,1)) drop-shadow(0 0 80px rgba(255,21,0,0.6)); }
+  66% { filter: drop-shadow(0 0 20px rgba(255,102,0,0.6)) drop-shadow(0 0 40px rgba(255,21,0,0.2)); }
+}
+
+.hero-sub {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #9999bb;
+  margin-bottom: 52px;
+  opacity: 0;
+  animation: rise 0.8s ease 0.9s forwards;
+}
+
+.hero-sub em {
+  font-style: normal;
+  color: var(--blue-glow);
+  text-shadow: 0 0 12px var(--blue-flame);
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: rise 0.8s ease 1.1s forwards;
+}
+
+@keyframes rise {
+  from { opacity:0; transform: translateY(28px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+/* BUTTONS */
+.btn-fire {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 44px;
+  position: relative;
+  overflow: hidden;
+  color: #000;
+  background: linear-gradient(180deg, var(--yellow) 0%, var(--orange) 50%, var(--red-core) 100%);
+  border: none;
+  box-shadow: 0 0 30px rgba(255,102,0,0.5), 0 0 60px rgba(255,21,0,0.2);
+  transition: all 0.3s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.btn-fire:hover {
+  box-shadow: 0 0 50px rgba(255,102,0,0.8), 0 0 100px rgba(255,21,0,0.4);
+  transform: translateY(-3px);
+}
+
+.btn-ghost {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 44px;
+  color: var(--lavender);
+  background: transparent;
+  border: 1px solid var(--purple);
+  box-shadow: 0 0 20px rgba(153,51,204,0.3), inset 0 0 20px rgba(153,51,204,0.05);
+  transition: all 0.3s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.btn-ghost:hover {
+  background: rgba(153,51,204,0.15);
+  box-shadow: 0 0 40px rgba(153,51,204,0.6);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ===================== TICKER ===================== */
+.ticker-wrap {
+  background: rgba(255,21,0,0.06);
+  border-top: 1px solid rgba(255,21,0,0.2);
+  border-bottom: 1px solid rgba(255,21,0,0.2);
+  overflow: hidden;
+  padding: 11px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.ticker {
+  display: flex;
+  animation: scroll-ticker 35s linear infinite;
+  white-space: nowrap;
+}
+
+.t-item {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  color: #886644;
+  padding: 0 48px;
+}
+
+.t-item b {
+  color: var(--orange);
+  margin-right: 6px;
+}
+
+@keyframes scroll-ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===================== SHARED SECTION STYLES ===================== */
+.s-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--blue-glow);
+  display: block;
+  margin-bottom: 14px;
+  text-shadow: 0 0 10px var(--blue-flame);
+}
+
+.s-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.1;
+  display: inline-block;
+}
+
+.s-title .heat {
+  background: linear-gradient(180deg, var(--white) 0%, var(--lavender) 35%, var(--purple-light) 60%, var(--red-core) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 16px rgba(153,51,204,0.5));
+}
+
+.divider {
+  width: 80px; height: 2px;
+  background: linear-gradient(90deg, var(--red-core), var(--purple), transparent);
+  margin: 20px 0 0;
+  box-shadow: 0 0 10px var(--red-core);
+}
+
+/* ===================== COMMUNITY ===================== */
+#community {
+  padding: 120px 48px;
+  background: radial-gradient(ellipse at 20% 50%, rgba(10,26,170,0.12) 0%, transparent 55%),
+              radial-gradient(ellipse at 80% 50%, rgba(153,51,204,0.08) 0%, transparent 55%),
+              #000;
+}
+
+.community-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: start;
+}
+
+.comm-left .s-title { display: block; margin-bottom: 28px; }
+
+.comm-left p {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #778899;
+  margin-bottom: 28px;
+}
+
+.comm-left p strong { color: var(--orange); }
+
+.feat-list {
+  list-style: none;
+  margin-bottom: 44px;
+}
+
+.feat-list li {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.76rem;
+  letter-spacing: 1px;
+  color: #667788;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.feat-list li::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--red-core);
+  box-shadow: 0 0 8px var(--red-core), 0 0 16px rgba(255,21,0,0.4);
+}
+
+/* Discord card */
+.discord-card {
+  background: linear-gradient(160deg, #05001a 0%, #000510 100%);
+  border: 1px solid rgba(26,68,255,0.25);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.discord-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue-flame), var(--purple), var(--red-core));
+  box-shadow: 0 0 20px var(--blue-flame);
+}
+
+.discord-card::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(26,68,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.disc-flame-icon {
+  font-size: 2.8rem;
+  margin-bottom: 18px;
+  display: block;
+  filter: drop-shadow(0 0 12px var(--orange));
+}
+
+.discord-card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+  background: linear-gradient(180deg, #fff 0%, var(--lavender) 60%, var(--purple-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.discord-card p {
+  font-size: 1rem;
+  color: #667;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.pill-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.pill {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255,21,0,0.25);
+  color: var(--orange);
+  background: rgba(255,21,0,0.05);
+}
+
+/* ===================== PROP FIRMS ===================== */
+#propfirms {
+  padding: 120px 48px;
+  background: #000;
+}
+
+.firms-inner { max-width: 1120px; margin: 0 auto; }
+
+.section-hdr {
+  margin-bottom: 56px;
+}
+
+.firms-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 2px;
+}
+
+.firm-card {
+  background: #030005;
+  border: 1px solid rgba(153,51,204,0.15);
+  padding: 44px 36px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.firm-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue-flame), var(--purple), var(--red-core));
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: 0 0 20px var(--red-core);
+}
+
+.firm-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(153,51,204,0.4);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(153,51,204,0.1);
+}
+
+.firm-card:hover::before { opacity: 1; }
+
+.firm-number {
+  font-family: 'Cinzel', serif;
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 8px;
+  opacity: 0.06;
+  color: #fff;
+  position: absolute;
+  top: 24px; right: 28px;
+}
+
+.firm-badge {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 4px;
+  color: var(--blue-glow);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  display: block;
+}
+
+.firm-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 2rem;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, #fff 0%, var(--lavender) 50%, var(--red-core) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(153,51,204,0.4));
+}
+
+.firm-desc {
+  font-size: 0.92rem;
+  color: #556;
+  line-height: 1.75;
+  margin-bottom: 28px;
+}
+
+.firm-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.stat {
+  border: 1px solid rgba(255,21,0,0.12);
+  background: rgba(255,21,0,0.03);
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.stat-v {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--orange);
+  display: block;
+  text-shadow: 0 0 10px rgba(255,102,0,0.4);
+}
+
+.stat-l {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  color: #445;
+  text-transform: uppercase;
+  margin-top: 4px;
+  display: block;
+}
+
+.firm-arrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  color: var(--purple-light);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: gap 0.2s, color 0.2s;
+}
+
+.firm-card:hover .firm-arrow { gap: 18px; color: #fff; }
+
+/* ===================== DEALS ===================== */
+#deals {
+  padding: 120px 48px;
+  background: radial-gradient(ellipse at 80% 50%, rgba(255,21,0,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 20% 50%, rgba(26,68,255,0.06) 0%, transparent 50%), #000;
+}
+
+.deals-inner { max-width: 1120px; margin: 0 auto; }
+
+.deals-note {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: #445;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deals-note::before {
+  content: '⚠';
+  color: var(--orange);
+  font-size: 0.7rem;
+}
+
+.deals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 52px;
+}
+
+.deal-card {
+  background: #030008;
+  border: 1px solid rgba(255,21,0,0.12);
+  padding: 36px 32px 40px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+  display: block;
+}
+
+.deal-card::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; right: -60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+.deal-card.apex::after { background: radial-gradient(circle, rgba(255,102,0,0.12), transparent 70%); }
+.deal-card.topstep::after { background: radial-gradient(circle, rgba(26,68,255,0.12), transparent 70%); }
+.deal-card.tradeify::after { background: radial-gradient(circle, rgba(153,51,204,0.12), transparent 70%); }
+
+.deal-card:hover { transform: translateY(-6px); border-color: rgba(255,21,0,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+.deal-card:hover::after { opacity: 1; }
+
+.deal-firm-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deal-firm-name.apex-c { color: var(--orange); text-shadow: 0 0 10px rgba(255,102,0,0.4); }
+.deal-firm-name.topstep-c { color: var(--blue-glow); text-shadow: 0 0 10px rgba(68,136,255,0.4); }
+.deal-firm-name.tradeify-c { color: var(--lavender); text-shadow: 0 0 10px rgba(187,136,255,0.4); }
+
+.deal-discount {
+  font-family: 'Orbitron', monospace;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.deal-card.apex .deal-discount {
+  background: linear-gradient(180deg, #fff 0%, var(--yellow) 40%, var(--orange) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 15px rgba(255,102,0,0.5));
+}
+.deal-card.topstep .deal-discount {
+  background: linear-gradient(180deg, #fff 0%, var(--blue-glow) 50%, var(--blue-flame) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 15px rgba(26,68,255,0.5));
+}
+.deal-card.tradeify .deal-discount {
+  background: linear-gradient(180deg, #fff 0%, var(--lavender) 50%, var(--purple) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 15px rgba(153,51,204,0.5));
+}
+
+.deal-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 3px;
+  color: #556;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.deal-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,21,0,0.2), transparent);
+  margin-bottom: 24px;
+}
+
+.deal-code-wrap {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.deal-code {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.95rem;
+  letter-spacing: 3px;
+  color: var(--white);
+  text-transform: uppercase;
+}
+
+.deal-copy-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  color: var(--orange);
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid rgba(255,102,0,0.3);
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.deal-copy-btn:hover { background: rgba(255,102,0,0.1); border-color: var(--orange); color: #fff; }
+.deal-copy-btn.copied { color: var(--green-heat); border-color: var(--green-heat); }
+
+.deal-details {
+  list-style: none;
+  margin-bottom: 28px;
+}
+
+.deal-details li {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  color: #556;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deal-details li::before {
+  content: '✓';
+  color: var(--green-heat);
+  font-size: 0.65rem;
+  flex-shrink: 0;
+}
+
+.deal-cta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #667;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s, gap 0.2s;
+}
+
+.deal-card:hover .deal-cta { color: var(--lavender); gap: 14px; }
+
+.deal-updated {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  color: #334;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.deal-updated::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green-heat);
+  box-shadow: 0 0 6px var(--green-heat);
+  flex-shrink: 0;
+}
+
+/* ===================== FIRM BREAKDOWN ===================== */
+#breakdown {
+  background: radial-gradient(ellipse at 30% 30%, rgba(255,21,0,0.05) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 70%, rgba(26,68,255,0.05) 0%, transparent 50%), #000;
+}
+
+.breakdown-firm {
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 40px;
+  background: #030005;
+}
+
+.breakdown-header {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-wrap: wrap;
+}
+
+.breakdown-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  letter-spacing: 4px;
+}
+
+.breakdown-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 3px;
+  color: #445;
+  text-transform: uppercase;
+}
+
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-bottom: 28px;
+}
+
+.breakdown-card {
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 24px 20px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.breakdown-card:hover { border-color: rgba(255,21,0,0.2); }
+
+.featured-card {
+  border-color: rgba(255,102,0,0.25) !important;
+  background: #060003;
+}
+
+.bc-popular {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 3px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.bc-size {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.bc-type {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  color: #445;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.bc-list { list-style: none; }
+
+.bc-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  gap: 8px;
+}
+
+.bc-list li span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  color: #445;
+  text-transform: uppercase;
+}
+
+.bc-list li b {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #aabbcc;
+  text-align: right;
+}
+
+.accent-price {
+  color: var(--orange) !important;
+  text-shadow: 0 0 8px rgba(255,102,0,0.3);
+}
+
+.breakdown-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.breakdown-notes span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 1px;
+  color: #556;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 6px 14px;
+}
+
+@media (max-width: 880px) {
+  .breakdown-grid { grid-template-columns: 1fr 1fr !important; }
+  .breakdown-firm { padding: 24px 20px; }
+}
+
+/* ===================== NEWS ===================== */
+.news-source-card {
+  background: #030005;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 28px 28px 24px;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.news-source-card:hover {
+  border-color: rgba(255,102,0,0.3);
+  transform: translateY(-4px);
+}
+
+.ns-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.ns-desc {
+  font-size: 0.85rem;
+  color: #445;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.ns-arrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  color: var(--orange);
+  text-transform: uppercase;
+  transition: letter-spacing 0.2s;
+}
+
+.news-source-card:hover .ns-arrow { letter-spacing: 4px; }
+
+.news-article-card {
+  background: #030005;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 28px;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.3s, transform 0.2s;
+}
+
+.news-article-card:hover {
+  border-color: rgba(255,21,0,0.25);
+  transform: translateY(-3px);
+}
+
+.na-source {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.bloomberg-c { color: #4488ff; }
+.cnbc-c { color: var(--orange); }
+.wsj-c { color: #aaa; }
+.reuters-c { color: #e87722; }
+.ft-c { color: #f5c842; }
+
+.na-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ccc;
+  line-height: 1.45;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.news-article-card:hover .na-title { color: var(--lavender); }
+
+.na-desc {
+  font-size: 0.85rem;
+  color: #445;
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.na-date {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  color: #334;
+  text-transform: uppercase;
+}
+
+/* Live news cards */
+.live-news-card {
+  background: #030005;
+  border: 1px solid rgba(255,255,255,0.05);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.live-news-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,21,0,0.25);
+}
+
+.featured-news { grid-row: span 2; }
+
+.lnc-img {
+  height: 260px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.lnc-img-sm {
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.lnc-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 60%);
+}
+
+.lnc-source {
+  position: absolute;
+  bottom: 10px; left: 14px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.lnc-body { padding: 20px; flex: 1; }
+
+.lnc-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ccc;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.lnc-title-sm {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #aaa;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+
+.live-news-card:hover .lnc-title,
+.live-news-card:hover .lnc-title-sm { color: var(--lavender); }
+
+.lnc-desc {
+  font-size: 0.85rem;
+  color: #445;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.lnc-date {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  color: #334;
+  text-transform: uppercase;
+}
+
+@media (max-width: 880px) {
+  #news > div > div:nth-child(2) { grid-template-columns: 1fr !important; }
+  #news > div > div:last-child { grid-template-columns: 1fr !important; }
+  #news { padding: 80px 20px !important; }
+  .featured-news { grid-row: span 1; }
+  #news-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ===================== LIVE NEWS CARDS ===================== */
+.live-news-card {
+  background: #030005;
+  border: 1px solid rgba(255,255,255,0.05);
+  text-decoration: none;
+  display: block;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.live-news-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,21,0,0.25);
+}
+
+.lnc-img {
+  height: 240px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.lnc-img-sm {
+  height: 160px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.lnc-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%);
+}
+
+.lnc-source {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.lnc-body {
+  padding: 20px 22px 24px;
+}
+
+.lnc-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #ccc;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.live-news-card:hover .lnc-title,
+.live-news-card:hover .lnc-title-sm { color: var(--lavender); }
+
+.lnc-desc {
+  font-size: 0.88rem;
+  color: #445;
+  line-height: 1.65;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lnc-title-sm {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #bbb;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lnc-date {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 2px;
+  color: #334;
+  text-transform: uppercase;
+}
+
+@media (max-width: 880px) {
+  #news-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ===================== BLOG / INTEL ===================== */
+#content {
+  padding: 120px 48px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(153,51,204,0.08) 0%, transparent 50%), #000;
+}
+
+.content-inner { max-width: 1120px; margin: 0 auto; }
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 2px;
+  margin-top: 56px;
+}
+
+.blog-card {
+  background: #030005;
+  border: 1px solid rgba(153,51,204,0.12);
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255,21,0,0.3);
+}
+
+.blog-thumb {
+  height: 190px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blog-card.feat .blog-thumb { height: 260px; }
+
+.bt-bg {
+  position: absolute; inset: 0;
+}
+
+.bt-bg.b1 { background: radial-gradient(ellipse at 30% 60%, rgba(26,68,255,0.5) 0%, rgba(10,0,30,0.95) 70%); }
+.bt-bg.b2 { background: radial-gradient(ellipse at 70% 40%, rgba(153,51,204,0.5) 0%, rgba(10,0,20,0.95) 70%); }
+.bt-bg.b3 { background: radial-gradient(ellipse at 50% 60%, rgba(255,21,0,0.35) 0%, rgba(20,0,0,0.95) 70%); }
+
+.bt-emoji {
+  font-size: 3.5rem;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 20px rgba(255,102,0,0.6));
+}
+
+.blog-card.feat .bt-emoji { font-size: 5rem; }
+
+/* Flame decoration on thumb */
+.bt-flames {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.blog-body { padding: 28px 28px 32px; }
+
+.blog-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 4px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.blog-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.45;
+  margin-bottom: 12px;
+  transition: color 0.2s;
+}
+
+.blog-card.feat .blog-title { font-size: 1.2rem; }
+.blog-card:hover .blog-title { color: var(--lavender); }
+
+.blog-excerpt {
+  font-size: 0.88rem;
+  color: #445566;
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+
+.blog-meta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  color: #334;
+  text-transform: uppercase;
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  background: #000;
+  border-top: 1px solid rgba(255,21,0,0.1);
+  padding: 72px 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red-core), var(--purple), transparent);
+  opacity: 0.3;
+}
+
+.footer-grid {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 52px;
+}
+
+.footer-brand-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: 2rem;
+  letter-spacing: 6px;
+  margin-bottom: 16px;
+  display: block;
+  background: linear-gradient(180deg, #fff 0%, var(--lavender) 40%, var(--red-core) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 14px rgba(153,51,204,0.5));
+}
+
+.footer-brand p {
+  font-size: 0.92rem;
+  color: #445;
+  line-height: 1.8;
+  max-width: 280px;
+}
+
+.footer-col h4 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 5px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a {
+  font-size: 0.9rem;
+  color: #445;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.footer-col ul li a:hover { color: var(--lavender); }
+
+.footer-bottom {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-bottom p {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: #334;
+}
+
+.footer-bottom p span { color: var(--red-core); }
+
+/* ===================== FLAME SVG ===================== */
+.flame-svg { pointer-events: none; }
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 880px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .community-wrap, .firms-grid, .blog-grid, .footer-grid { grid-template-columns: 1fr; }
+  #hero, #community, #propfirms, #content { padding: 100px 20px 80px; }
+  footer { padding: 60px 20px 32px; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="scroll-line" id="scrollLine"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><span class="nav-logo-text">ATTA CAP</span></a>
+  <ul class="nav-links">
+    <li><a href="#community">Community</a></li>
+    <li><a href="#propfirms">Partners</a></li>
+    <li><a href="#deals">Deals</a></li>
+    <li><a href="#breakdown">Firms</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#content">Intel</a></li>
+  </ul>
+  <a href="#community" class="nav-cta">Join Discord</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-orb"></div>
+
+  <!-- Flame SVG background -->
+  <svg class="hero-flames" viewBox="0 0 1400 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="fg1" cx="50%" cy="100%" r="60%">
+        <stop offset="0%" stop-color="#1a44ff" stop-opacity="0.9"/>
+        <stop offset="60%" stop-color="#0a0a80" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- Individual flame tongues -->
+    <g fill="none">
+      <path d="M100,500 C120,420 90,360 130,300 C150,340 140,400 160,500Z" fill="url(#fg1)" opacity="0.7">
+        <animateTransform attributeName="transform" type="translate" values="0,0;-5,10;3,-8;0,0" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <path d="M200,500 C240,390 200,310 250,240 C275,290 265,380 290,500Z" fill="url(#fg1)" opacity="0.8">
+        <animateTransform attributeName="transform" type="translate" values="0,0;4,8;-3,-5;0,0" dur="2.5s" repeatCount="indefinite"/>
+      </path>
+      <path d="M350,500 C380,380 340,280 400,200 C430,260 415,370 445,500Z" fill="url(#fg1)" opacity="0.75">
+        <animateTransform attributeName="transform" type="translate" values="0,0;-6,5;4,-10;0,0" dur="3.5s" repeatCount="indefinite"/>
+      </path>
+      <path d="M500,500 C510,430 480,370 520,310 C540,350 530,430 555,500Z" fill="url(#fg1)" opacity="0.6">
+        <animateTransform attributeName="transform" type="translate" values="0,0;5,7;-2,-6;0,0" dur="2.8s" repeatCount="indefinite"/>
+      </path>
+      <path d="M620,500 C650,380 610,280 670,190 C700,250 685,380 715,500Z" fill="url(#fg1)" opacity="0.85">
+        <animateTransform attributeName="transform" type="translate" values="0,0;-4,9;6,-7;0,0" dur="3.2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M780,500 C800,400 760,320 810,250 C835,300 820,400 845,500Z" fill="url(#fg1)" opacity="0.7">
+        <animateTransform attributeName="transform" type="translate" values="0,0;3,6;-5,-8;0,0" dur="2.7s" repeatCount="indefinite"/>
+      </path>
+      <path d="M920,500 C950,380 910,270 970,180 C1000,250 985,380 1015,500Z" fill="url(#fg1)" opacity="0.8">
+        <animateTransform attributeName="transform" type="translate" values="0,0;-7,8;4,-5;0,0" dur="3.8s" repeatCount="indefinite"/>
+      </path>
+      <path d="M1080,500 C1100,430 1070,360 1110,300 C1130,340 1120,420 1145,500Z" fill="url(#fg1)" opacity="0.65">
+        <animateTransform attributeName="transform" type="translate" values="0,0;5,5;-3,-9;0,0" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <path d="M1220,500 C1250,380 1210,280 1270,200 C1295,260 1280,380 1305,500Z" fill="url(#fg1)" opacity="0.75">
+        <animateTransform attributeName="transform" type="translate" values="0,0;-4,7;5,-6;0,0" dur="2.6s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- Ground glow -->
+    <ellipse cx="700" cy="490" rx="600" ry="60" fill="rgba(26,68,255,0.2)"/>
+  </svg>
+
+  <div class="hero-smoke"></div>
+
+  <div class="hero-content">
+
+    <h1 class="hero-title">
+      <span class="title-line title-heat">ATTA</span>
+      <span class="title-line title-flame">CAPITAL</span>
+    </h1>
+    <p class="hero-sub"><em>A FREE PLACE TO TRADE</em></p>
+    <div class="hero-buttons">
+      <a href="#community" class="btn-ghost">Enter the Community</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="t-item"><b>▲</b>NQ/MNQ FUTURES</span>
+    <span class="t-item"><b>◆</b>APEX TRADING — AFFILIATE PARTNER</span>
+    <span class="t-item"><b>▲</b>TOPSTEP — PARTNER</span>
+    <span class="t-item"><b>◆</b>TRADEIFY — PARTNER</span>
+    <span class="t-item"><b>▲</b>MINDSET DICTATES OUTCOMES</span>
+    <span class="t-item"><b>◆</b>10AM–1PM ET — EXECUTION WINDOW</span>
+    <span class="t-item"><b>▲</b>VOLUME PROFILE + EMA CONFLUENCE</span>
+    <span class="t-item"><b>◆</b>A FREE PLACE TO TRADE</span>
+    <span class="t-item"><b>▲</b>NQ/MNQ FUTURES</span>
+    <span class="t-item"><b>◆</b>APEX TRADING — AFFILIATE PARTNER</span>
+    <span class="t-item"><b>▲</b>TOPSTEP — PARTNER</span>
+    <span class="t-item"><b>◆</b>TRADEIFY — PARTNER</span>
+    <span class="t-item"><b>▲</b>MINDSET DICTATES OUTCOMES</span>
+    <span class="t-item"><b>◆</b>10AM–1PM ET — EXECUTION WINDOW</span>
+    <span class="t-item"><b>▲</b>VOLUME PROFILE + EMA CONFLUENCE</span>
+    <span class="t-item"><b>◆</b>A FREE PLACE TO TRADE</span>
+  </div>
+</div>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="community-wrap">
+    <div class="comm-left">
+      <span class="s-tag">// 01 — Community</span>
+      <h2 class="s-title">
+        <span class="heat">A FREE PLACE<br>TO LEARN.<br>TO TRADE.</span>
+      </h2>
+      <div class="divider"></div>
+      <br><br>
+      <p>ATTA Capital is a <strong>free community</strong> built for traders who want to grow. Daily market context, session breakdowns, and a crew focused on discipline and execution.</p>
+      <ul class="feat-list">
+        <li>Daily pre-session briefings — macro + session bias</li>
+        <li>NQ/MNQ trade breakdowns post-session</li>
+        <li>Volume profile + TBR methodology deep dives</li>
+        <li>Prop firm eval strategy and payout cycle management</li>
+        <li>Pine Script indicators and tools library</li>
+        <li>Trading psychology and execution mindset content</li>
+      </ul>
+      <a href="#" class="btn-fire">Join the Discord</a>
+    </div>
+    <div class="discord-card">
+      <span class="disc-flame-icon">🔥</span>
+      <h3>ATTA Capital Discord</h3>
+      <p>Free and growing. Daily briefings drop every morning before the open. Come in raw — leave sharper. This is the room for traders who want to put in the work.</p>
+      <div class="pill-stats">
+        <span class="pill">Daily Briefings</span>
+        <span class="pill">NQ Focus</span>
+        <span class="pill">Prop Firm Intel</span>
+        <span class="pill">MDO Philosophy</span>
+      </div>
+      <a href="#" class="btn-fire" style="display:block;text-align:center;width:100%;">Access Discord →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROP FIRMS -->
+<section id="propfirms">
+  <div class="firms-inner">
+    <div class="section-hdr">
+      <span class="s-tag">// 02 — Partners</span>
+      <h2 class="s-title"><span class="heat">PROP FIRMS WE<br>RECOMMEND</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="firms-grid">
+      <a href="#" class="firm-card">
+        <span class="firm-number">01</span>
+        <span class="firm-badge">// Affiliate Partner</span>
+        <div class="firm-name">APEX</div>
+        <p class="firm-desc">Most flexible structure in the game. Unlimited eval retries, 15% lifetime affiliate commissions. A platform we use and recommend to the community.</p>
+        <div class="firm-stats">
+          <div class="stat"><span class="stat-v">15%</span><span class="stat-l">Lifetime Ref</span></div>
+          <div class="stat"><span class="stat-v">∞</span><span class="stat-l">Retries</span></div>
+        </div>
+        <span class="firm-arrow">Learn More →</span>
+      </a>
+      <a href="#" class="firm-card">
+        <span class="firm-number">02</span>
+        <span class="firm-badge">// Recommended</span>
+        <div class="firm-name">TOPSTEP</div>
+        <p class="firm-desc">Industry OG. Consistent payouts, clean process. One of the most trusted names in prop trading. A community favorite for good reason.</p>
+        <div class="firm-stats">
+          <div class="stat"><span class="stat-v">OG</span><span class="stat-l">Est. Firm</span></div>
+          <div class="stat"><span class="stat-v">✓</span><span class="stat-l">Trusted</span></div>
+        </div>
+        <span class="firm-arrow">Learn More →</span>
+      </a>
+      <a href="#" class="firm-card">
+        <span class="firm-number">03</span>
+        <span class="firm-badge">// Recommended</span>
+        <div class="firm-name">TRADEIFY</div>
+        <p class="firm-desc">Newer player with solid mechanics. Good for diversifying your funded account stack and spreading risk across multiple platforms.</p>
+        <div class="firm-stats">
+          <div class="stat"><span class="stat-v">NEW</span><span class="stat-l">Platform</span></div>
+          <div class="stat"><span class="stat-v">✓</span><span class="stat-l">Solid</span></div>
+        </div>
+        <span class="firm-arrow">Learn More →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DEALS -->
+<section id="deals">
+  <div class="deals-inner">
+    <div class="section-hdr">
+      <span class="s-tag">// 03 — Best Deals</span>
+      <h2 class="s-title"><span class="heat">CURRENT PROP<br>FIRM DEALS</span></h2>
+      <div class="divider"></div>
+      <p class="deals-note">Deals verified April 2026 — codes change frequently. Always confirm on the firm's site before purchasing.</p>
+    </div>
+    <div class="deals-grid">
+
+      <!-- APEX -->
+      <div class="deal-card apex">
+        <div class="deal-firm-name apex-c">APEX <span style="font-size:0.6rem;color:#445;letter-spacing:2px;font-family:'Share Tech Mono',monospace;">TRADER FUNDING</span></div>
+        <span class="deal-discount">90%</span>
+        <span class="deal-label">Off new product evals — limited time</span>
+        <div class="deal-divider"></div>
+        <div class="deal-code-wrap">
+          <span class="deal-code" id="apex-code">SAVENOW</span>
+          <button class="deal-copy-btn" onclick="copyCode('apex-code', this)">Copy</button>
+        </div>
+        <ul class="deal-details">
+          <li>90% off new product evaluations</li>
+          <li>$25K–$300K account sizes</li>
+          <li>EOD drawdown — no MAE rule</li>
+          <li>No payout denials</li>
+          <li>Expires in ~5 days — act fast</li>
+        </ul>
+        <span class="deal-cta">Visit Apex →</span>
+        <div class="deal-updated">Confirmed live — Apr 2026</div>
+      </div>
+
+
+
+      <!-- TRADEIFY -->
+      <div class="deal-card tradeify">
+        <div class="deal-firm-name tradeify-c">TRADEIFY <span style="font-size:0.6rem;color:#445;letter-spacing:2px;font-family:'Share Tech Mono',monospace;">EVALUATION</span></div>
+        <span class="deal-discount">40%</span>
+        <span class="deal-label">Off all accounts — expires Apr 30</span>
+        <div class="deal-divider"></div>
+        <div class="deal-code-wrap">
+          <span class="deal-code" id="tradeify-code">DASH</span>
+          <button class="deal-copy-btn" onclick="copyCode('tradeify-code', this)">Copy</button>
+        </div>
+        <ul class="deal-details">
+          <li>40% off — first 5 uses</li>
+          <li>30% off after 5 uses</li>
+          <li>Expires April 30, 11:59PM EST</li>
+          <li>Valid on all account sizes</li>
+          <li>Confirmed live on tradeify.co</li>
+        </ul>
+        <span class="deal-cta">Visit Tradeify →</span>
+        <div class="deal-updated">Confirmed live — Apr 2026</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FIRM BREAKDOWN -->
+<section id="breakdown">
+  <div style="max-width:1120px;margin:0 auto;padding:0 48px 120px;">
+    <div class="section-hdr" style="margin-bottom:56px;">
+      <span class="s-tag">// 04 — Firm Breakdown</span>
+      <h2 class="s-title"><span class="heat">ACCOUNT DETAILS<br>SIDE BY SIDE</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <!-- APEX BREAKDOWN -->
+    <div class="breakdown-firm">
+      <div class="breakdown-header">
+        <div class="breakdown-name apex-c">APEX TRADER FUNDING</div>
+        <span class="breakdown-tag">4.0 System — Updated March 2026</span>
+      </div>
+      <div class="breakdown-grid">
+        <div class="breakdown-card">
+          <div class="bc-size">$25K</div>
+          <div class="bc-type">EOD or Intraday</div>
+          <ul class="bc-list">
+            <li><span>Profit Target</span><b>$1,500</b></li>
+            <li><span>Max Drawdown</span><b>$1,000</b></li>
+            <li><span>Daily Loss</span><b>$500</b></li>
+            <li><span>Eval Contracts</span><b>4</b></li>
+            <li><span>PA Contracts</span><b>3</b></li>
+            <li><span>Retail Price</span><b>~$147</b></li>
+            <li><span>w/ SAVENOW</span><b class="accent-price">~$15</b></li>
+          </ul>
+        </div>
+        <div class="breakdown-card featured-card">
+          <div class="bc-popular">MOST POPULAR</div>
+          <div class="bc-size">$100K</div>
+          <div class="bc-type">EOD or Intraday</div>
+          <ul class="bc-list">
+            <li><span>Profit Target</span><b>$6,000</b></li>
+            <li><span>Max Drawdown</span><b>$3,000</b></li>
+            <li><span>Daily Loss</span><b>$1,500</b></li>
+            <li><span>Eval Contracts</span><b>8</b></li>
+            <li><span>PA Contracts</span><b>6</b></li>
+            <li><span>Retail Price</span><b>~$297</b></li>
+            <li><span>w/ SAVENOW</span><b class="accent-price">~$30</b></li>
+          </ul>
+        </div>
+        <div class="breakdown-card">
+          <div class="bc-size">$50K</div>
+          <div class="bc-type">EOD or Intraday</div>
+          <ul class="bc-list">
+            <li><span>Profit Target</span><b>$3,000</b></li>
+            <li><span>Max Drawdown</span><b>$2,000</b></li>
+            <li><span>Daily Loss</span><b>$1,000</b></li>
+            <li><span>Eval Contracts</span><b>6</b></li>
+            <li><span>PA Contracts</span><b>4</b></li>
+            <li><span>Retail Price</span><b>~$197</b></li>
+            <li><span>w/ SAVENOW</span><b class="accent-price">~$20</b></li>
+          </ul>
+        </div>
+        <div class="breakdown-card">
+          <div class="bc-size">$150K</div>
+          <div class="bc-type">EOD or Intraday</div>
+          <ul class="bc-list">
+            <li><span>Profit Target</span><b>$9,000</b></li>
+            <li><span>Max Drawdown</span><b>$4,000</b></li>
+            <li><span>Daily Loss</span><b>$2,000</b></li>
+            <li><span>Eval Contracts</span><b>12</b></li>
+            <li><span>PA Contracts</span><b>9</b></li>
+            <li><span>Retail Price</span><b>~$597</b></li>
+            <li><span>w/ SAVENOW</span><b class="accent-price">~$60</b></li>
+          </ul>
+        </div>
+      </div>
+      <div class="breakdown-notes">
+        <span>✓ One-time fee — no recurring billing</span>
+        <span>✓ EOD drawdown recommended over Intraday</span>
+        <span>✓ 100% of first $25K profit kept per account</span>
+        <span>✓ 90% split after $25K</span>
+        <span>✓ Up to 20 accounts simultaneously</span>
+        <span>✓ 5 min trading days required for payout</span>
+        <span>✓ 50% consistency rule applies</span>
+        <span>✓ No payout denials — no video reviews</span>
+      </div>
+    </div>
+
+    <!-- TOPSTEP BREAKDOWN -->
+    <div class="breakdown-firm" style="margin-top:60px;">
+      <div class="breakdown-header">
+        <div class="breakdown-name topstep-c">TOPSTEP</div>
+        <span class="breakdown-tag">Trading Combine — Updated Feb 2026</span>
+      </div>
+      <div class="breakdown-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="breakdown-card">
+          <div class="bc-size">$50K</div>
+          <div class="bc-type">Standard Path</div>
+          <ul class="bc-list">
+            <li><span>Profit Target</span><b>$3,000</b></li>
+            <li><span>Max Loss Limit</span><b>$2,000</b></li>
+            <li><span>Monthly Sub</span><b>$49</b></li>
+            <li><span>Activation Fee</span><b>$149</b></li>
+            <li><span>Max Contracts</span><b>5 std / 50 micro</b></li>
+            <li><span>Payout Split</span><b>90/10</b></li>
+          </ul>
+        </div>
+        <div class="breakdown-card featured-card">
+          <div class="bc-popular">SWEET SPOT</div>
+          <div class="bc-size">$100K</div>
+          <div class="bc-type">Standard Path</div>
+          <ul class="bc-list">
+            <li><span>Profit Target</span><b>$6,000</b></li>
+            <li><span>Max Loss Limit</span><b>$3,000</b></li>
+            <li><span>Monthly Sub</span><b>$99</b></li>
+            <li><span>Activation Fee</span><b>$149</b></li>
+            <li><span>Max Contracts</span><b>10 std / 100 micro</b></li>
+            <li><span>Payout Split</span><b>90/10</b></li>
+          </ul>
+        </div>
+        <div class="breakdown-card">
+          <div class="bc-size">$150K</div>
+          <div class="bc-type">Standard Path</div>
+          <ul class="bc-list">
+            <li><span>Profit Target</span><b>$9,000</b></li>
+            <li><span>Max Loss Limit</span><b>$4,500</b></li>
+            <li><span>Monthly Sub</span><b>$149</b></li>
+            <li><span>Activation Fee</span><b>$149</b></li>
+            <li><span>Max Contracts</span><b>15 std / 150 micro</b></li>
+            <li><span>Payout Split</span><b>90/10</b></li>
+          </ul>
+        </div>
+      </div>
+      <div class="breakdown-notes">
+        <span>✓ Monthly subscription model — cancel anytime</span>
+        <span>✓ 100% profit on first $10K earned</span>
+        <span>✓ No Activation Fee path available (higher monthly)</span>
+        <span>✓ Back2Funded — reactivate lost account up to 2x</span>
+        <span>✓ Up to 5 active funded accounts</span>
+        <span>✓ Reset credit included on every monthly rebill</span>
+        <span>✓ TopstepX platform — no daily loss limit</span>
+        <span>✓ News trading & automated strategies permitted</span>
+      </div>
+    </div>
+
+    <!-- TRADEIFY BREAKDOWN -->
+    <div class="breakdown-firm" style="margin-top:60px;">
+      <div class="breakdown-header">
+        <div class="breakdown-name tradeify-c">TRADEIFY</div>
+        <span class="breakdown-tag">Futures Evaluation — 2026</span>
+      </div>
+      <div class="breakdown-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="breakdown-card">
+          <div class="bc-size">STANDARD</div>
+          <div class="bc-type">1-Step Eval</div>
+          <ul class="bc-list">
+            <li><span>Accounts</span><b>$10K–$200K</b></li>
+            <li><span>Profit Split</span><b>80/20</b></li>
+            <li><span>News Trading</span><b>✓ Allowed</b></li>
+            <li><span>Daily Payouts</span><b>✓ Available</b></li>
+            <li><span>Min Trade Days</span><b>None</b></li>
+            <li><span>Code</span><b class="accent-price">DASH (40% off)</b></li>
+          </ul>
+        </div>
+        <div class="breakdown-card featured-card">
+          <div class="bc-popular">BEST VALUE</div>
+          <div class="bc-size">ELITE</div>
+          <div class="bc-type">1-Step Eval</div>
+          <ul class="bc-list">
+            <li><span>Accounts</span><b>$10K–$200K</b></li>
+            <li><span>Profit Split</span><b>95/5</b></li>
+            <li><span>News Trading</span><b>✓ Allowed</b></li>
+            <li><span>Daily Payouts</span><b>✓ Available</b></li>
+            <li><span>Free Account</span><b>✓ On first payout</b></li>
+            <li><span>Code</span><b class="accent-price">DASH (40% off)</b></li>
+          </ul>
+        </div>
+        <div class="breakdown-card">
+          <div class="bc-size">INSTANT</div>
+          <div class="bc-type">No Eval</div>
+          <ul class="bc-list">
+            <li><span>Accounts</span><b>$10K–$200K</b></li>
+            <li><span>Profit Split</span><b>95/5</b></li>
+            <li><span>News Trading</span><b>✓ Allowed</b></li>
+            <li><span>Daily Payouts</span><b>✓ Available</b></li>
+            <li><span>Free Account</span><b>✓ On first payout</b></li>
+            <li><span>Code</span><b class="accent-price">DASH (40% off)</b></li>
+          </ul>
+        </div>
+      </div>
+      <div class="breakdown-notes">
+        <span>✓ Daily payouts available — fastest in the space</span>
+        <span>✓ No minimum trading days required</span>
+        <span>✓ News trading fully permitted</span>
+        <span>✓ 95% profit split on Elite and Instant plans</span>
+        <span>✓ Free matching account on first payout (Elite/Instant)</span>
+        <span>✓ Code DASH — 40% off, expires April 30</span>
+        <span>✓ Crypto accounts available at tradeifycrypto.co</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MARKET NEWS -->
+<section id="news" style="padding:120px 48px;background:#000;">
+  <div style="max-width:1120px;margin:0 auto;">
+    <div class="section-hdr" style="margin-bottom:52px;">
+      <span class="s-tag">// 05 — Market News</span>
+      <h2 class="s-title"><span class="heat">TOP MARKET<br>SOURCES</span></h2>
+      <div class="divider"></div>
+      <p class="deals-note" style="margin-top:16px;">Direct links to the best financial news sources. One click to the latest market coverage.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+      <a href="https://www.bloomberg.com/markets" target="_blank" class="news-source-card">
+        <div class="ns-name">Bloomberg</div>
+        <div class="ns-desc">Markets hub — equities, bonds, futures, commodities, global macro</div>
+        <div class="ns-arrow">Go to Markets →</div>
+      </a>
+      <a href="https://www.cnbc.com/markets/" target="_blank" class="news-source-card">
+        <div class="ns-name">CNBC</div>
+        <div class="ns-desc">Live market updates, futures, indexes, key commodities, breaking news</div>
+        <div class="ns-arrow">Go to Markets →</div>
+      </a>
+      <a href="https://www.wsj.com/finance/markets" target="_blank" class="news-source-card">
+        <div class="ns-name">Wall Street Journal</div>
+        <div class="ns-desc">Markets coverage, economic data, in-depth macro analysis</div>
+        <div class="ns-arrow">Go to Markets →</div>
+      </a>
+      <a href="https://www.reuters.com/markets/" target="_blank" class="news-source-card">
+        <div class="ns-name">Reuters</div>
+        <div class="ns-desc">Breaking financial news, global macro, commodities, FX</div>
+        <div class="ns-arrow">Go to Markets →</div>
+      </a>
+      <a href="https://www.ft.com/markets" target="_blank" class="news-source-card">
+        <div class="ns-name">Financial Times</div>
+        <div class="ns-desc">Global market analysis, rates, equities, institutional perspective</div>
+        <div class="ns-arrow">Go to Markets →</div>
+      </a>
+      <a href="https://finance.yahoo.com/" target="_blank" class="news-source-card">
+        <div class="ns-name">Yahoo Finance</div>
+        <div class="ns-desc">Free real-time quotes, news, earnings calendars, watchlists</div>
+        <div class="ns-arrow">Go to Markets →</div>
+      </a>
+      <a href="https://www.investing.com/" target="_blank" class="news-source-card">
+        <div class="ns-name">Investing.com</div>
+        <div class="ns-desc">Futures quotes, economic calendar, technical analysis tools</div>
+        <div class="ns-arrow">Go to Markets →</div>
+      </a>
+      <a href="https://www.marketwatch.com/" target="_blank" class="news-source-card">
+        <div class="ns-name">MarketWatch</div>
+        <div class="ns-desc">Real-time market data, stock news, personal finance coverage</div>
+        <div class="ns-arrow">Go to Markets →</div>
+      </a>
+      <a href="https://www.forexfactory.com/calendar" target="_blank" class="news-source-card">
+        <div class="ns-name">Forex Factory</div>
+        <div class="ns-desc">Economic calendar — high impact events, release times, forecasts</div>
+        <div class="ns-arrow">View Calendar →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="content">
+  <div class="content-inner">
+    <div class="section-hdr">
+      <span class="s-tag">// 06 — Intel</span>
+      <h2 class="s-title"><span class="heat">MARKET<br>INTELLIGENCE</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="blog-grid">
+      <a href="#" class="blog-card feat">
+        <div class="blog-thumb">
+          <div class="bt-bg b1"></div>
+          <svg class="bt-flames" viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,80 C80,40 120,10 180,30 C240,50 280,0 360,20 C440,40 500,10 600,80Z" fill="rgba(26,68,255,0.3)"/>
+            <path d="M50,80 C100,50 130,20 200,40 C270,60 310,15 400,35 C490,55 540,20 600,80Z" fill="rgba(153,51,204,0.2)"/>
+          </svg>
+          <span class="bt-emoji">📈</span>
+        </div>
+        <div class="blog-body">
+          <span class="blog-tag">// Featured — Education</span>
+          <h3 class="blog-title">Trailing Drawdown Mechanics Every Prop Trader Needs to Understand</h3>
+          <p class="blog-excerpt">Most traders blow accounts not from bad entries — from not understanding how trailing drawdown actually moves. Here's the full breakdown that could save your funded account today.</p>
+          <span class="blog-meta">ATTA Capital — Prop Firm Education</span>
+        </div>
+      </a>
+      <a href="#" class="blog-card">
+        <div class="blog-thumb">
+          <div class="bt-bg b2"></div>
+          <svg class="bt-flames" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,80 C50,40 80,15 130,35 C180,55 220,10 300,80Z" fill="rgba(153,51,204,0.3)"/>
+          </svg>
+          <span class="bt-emoji">⚡</span>
+        </div>
+        <div class="blog-body">
+          <span class="blog-tag">// Psychology</span>
+          <h3 class="blog-title">Why Your Session Window Is Your Real Stop Loss</h3>
+          <p class="blog-excerpt">The hard boundary that actually protects your capital isn't a dollar amount. It's time.</p>
+          <span class="blog-meta">Execution & Mindset</span>
+        </div>
+      </a>
+      <a href="#" class="blog-card">
+        <div class="blog-thumb">
+          <div class="bt-bg b3"></div>
+          <svg class="bt-flames" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,80 C60,35 100,10 160,30 C220,50 260,15 300,80Z" fill="rgba(255,21,0,0.2)"/>
+          </svg>
+          <span class="bt-emoji">🔬</span>
+        </div>
+        <div class="blog-body">
+          <span class="blog-tag">// Strategy</span>
+          <h3 class="blog-title">Volume Profile + TBR: The Core NQ Setup Explained</h3>
+          <p class="blog-excerpt">Time Based Range levels, EMA confluence, and where price actually respects structure.</p>
+          <span class="blog-meta">NQ Futures Methodology</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="footer-brand-name">ATTA CAP</span>
+      <p>A trading community for real traders. No gurus. No signals. Just execution, psychology, and the grind of building a sustainable prop trading operation. Mindset Dictates Outcomes.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#community">Community</a></li>
+        <li><a href="#propfirms">Prop Firms</a></li>
+        <li><a href="#content">Intel</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Discord</a></li>
+        <li><a href="#">X / Twitter</a></li>
+        <li><a href="#">MDO Brand</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 ATTA Capital — <span>Mindset Dictates Outcomes</span></p>
+    <p>Built by a trader. For traders.</p>
+  </div>
+</footer>
+
+<script>
+  // Copy promo code
+  function copyCode(id, btn) {
+    const code = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    setTimeout(() => {
+      ring.style.left = mx + 'px';
+      ring.style.top = my + 'px';
+    }, 90);
+  });
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+      ring.style.transform = 'translate(-50%,-50%) scale(0.5)';
+      ring.style.borderColor = 'var(--orange)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.borderColor = 'rgba(255,21,0,0.5)';
+    });
+  });
+
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('scrollLine').style.width = pct + '%';
+  });
+
+  // Scroll fade-in
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.firm-card, .blog-card, .discord-card, .comm-left, .deal-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(32px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease, border-color 0.3s, box-shadow 0.3s';
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
