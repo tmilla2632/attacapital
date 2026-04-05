@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understanding Market Profile Shapes: The P, the b, and How to Use Them</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: #111;
+    --border: #222;
+    --text: #ccc;
+    --text-dim: #888;
+    --white: #f0ede6;
+    --orange: #ff6600;
+    --green: #00cc44;
+    --red: #cc2200;
+    --gold: #C9A84C;
+    --mono: 'Share Tech Mono', monospace;
+    --serif: 'EB Garamond', Georgia, serif;
+    --sans: 'Barlow', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 40px 120px;
+  }
+
+  .category-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-dim);
+    font-style: italic;
+    font-family: var(--serif);
+    margin-bottom: 48px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  p {
+    color: var(--text);
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  strong { color: var(--white); font-weight: 600; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--white);
+    margin: 52px 0 20px;
+    padding-left: 16px;
+    border-left: 3px solid var(--orange);
+    font-variant: small-caps;
+    letter-spacing: 0.5px;
+  }
+
+  h3 {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 32px 0 12px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* PROFILE CARDS */
+  .profile-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 32px 0 40px;
+    border: 1px solid var(--border);
+  }
+
+  .profile-card {
+    padding: 28px 24px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+  }
+
+  .profile-card:last-child { border-right: none; }
+
+  .profile-card .card-title {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
+  .profile-card .card-subtitle {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .profile-card p { font-size: 14px; color: var(--text-dim); line-height: 1.7; margin-bottom: 0; }
+
+  .p-card .card-title { color: var(--red); }
+  .p-card { border-top: 2px solid var(--red); }
+  .b-card .card-title { color: var(--green); }
+  .b-card { border-top: 2px solid var(--green); }
+
+  /* USE CARDS */
+  .use-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 32px 0 8px;
+    border: 1px solid var(--border);
+  }
+
+  .use-card {
+    padding: 24px 20px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+  }
+
+  .use-card:last-child { border-right: none; }
+
+  .use-card .use-title {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .use-card .use-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .use-card p { font-size: 13px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+
+  .use-card.bearish .use-title { color: var(--red); }
+  .use-card.bearish { border-top: 2px solid var(--red); }
+  .use-card.bullish .use-title { color: var(--green); }
+  .use-card.bullish { border-top: 2px solid var(--green); }
+  .use-card.caution .use-title { color: var(--orange); }
+  .use-card.caution { border-top: 2px solid var(--orange); }
+
+  .use-cards + .use-cards { margin-top: 0; border-top: none; }
+
+  /* COMPARE TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0 40px;
+    font-size: 14px;
+  }
+
+  .compare-table th {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+
+  .compare-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #1a1a1a;
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  .compare-table td:first-child {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .p-val { color: var(--red); font-weight: 600; }
+  .b-val { color: var(--green); font-weight: 600; }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid var(--orange);
+    padding: 20px 24px;
+    background: #111;
+    margin: 32px 0;
+  }
+
+  .callout p {
+    font-size: 15px;
+    color: var(--text);
+    margin: 0;
+    font-style: italic;
+    font-family: var(--serif);
+  }
+
+  /* WARNING */
+  .warning {
+    border: 1px solid #331100;
+    border-left: 3px solid var(--red);
+    padding: 20px 24px;
+    background: #110a00;
+    margin: 32px 0;
+  }
+
+  .warning-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .warning p { font-size: 14px; color: var(--text); margin: 0; }
+
+  /* CLOSING */
+  .closing {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .closing p {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 40px 20px 80px; }
+    .profile-cards { grid-template-columns: 1fr; }
+    .profile-card { border-right: none; border-bottom: 1px solid var(--border); }
+    .use-cards { grid-template-columns: 1fr; }
+    .use-card { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+  <span class="category-label">Market Profile Education</span>
+
+  <h1>Understanding Market Profile Shapes:<br>The P, the b, and How to Use Them</h1>
+
+  <p class="subtitle">When most traders look at a chart, they see candlesticks. Price went up, price went down. But that surface-level view misses one of the most important questions you can ask about any move — <strong>who was responsible for it, and why?</strong></p>
+
+  <p>Market Profile gives you a way to answer that question. The shape of a session's volume distribution tells you the story behind the price action — not just where price went, but whether real conviction was behind the move. Two of the most important shapes to understand are the <strong>P-profile</strong> and the <strong>b-profile</strong>. They look like mirror images of each other. The implications they carry are completely different.</p>
+
+  <hr>
+
+  <h2>What Is a Market Profile Shape?</h2>
+
+  <p>A Market Profile plots price on the vertical axis and time or volume on the horizontal axis. As the session develops, the distribution of activity builds into a shape. Where volume concentrates tells you where the market spent the most time and did the most business — where value was established.</p>
+
+  <p>When that distribution is unbalanced — when volume clusters heavily at one end of the range rather than throughout it — the shape of the profile tells you something specific about the nature of the move.</p>
+
+  <hr>
+
+  <h2>The Two Shapes</h2>
+
+  <div class="profile-cards">
+    <div class="profile-card p-card">
+      <div class="card-title">P</div>
+      <div class="card-subtitle">Short Covering — Not Genuine Buying</div>
+      <p>Volume is concentrated at the <strong style="color:var(--white)">top</strong> of the range. The bottom is thin — single prints, minimal activity. Price moved through the lower area quickly and built its value at the highs. The buyers responsible for the move were not genuine long-side participants. They were short sellers covering positions. Once that covering exhausts, there is nothing left to hold price up.</p>
+    </div>
+    <div class="profile-card b-card">
+      <div class="card-title">b</div>
+      <div class="card-subtitle">Genuine Absorption — Real Demand</div>
+      <p>Volume is concentrated at the <strong style="color:var(--white)">bottom</strong> of the range. The top is thin. Price moved down, found buyers, and those buyers absorbed the selling pressure at the lows. The volume built at the bottom is evidence of that absorption. Someone stepped up, bought everything sellers were offering, and established a structural base worth defending.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>The shape tells you the why behind the price move — not just where price went, but whether anyone real was behind it.</p>
+  </div>
+
+  <hr>
+
+  <h2>The Mechanics Behind Each Shape</h2>
+
+  <h3>How a P Forms</h3>
+  <p>Price moves up, but the buying is mechanical — shorts closing losing positions, not longs building new ones. The thin area at the bottom of the profile is the tell. Price moved through those levels fast because nobody was interested in establishing value there. Volume built at the top because that is where covering activity exhausted itself.</p>
+
+  <p>Once short covering is exhausted, there is nothing left to sustain upward pressure. The single print area at the bottom of the P becomes a magnet — price has a tendency to return to those untested levels and either establish value there or continue lower.</p>
+
+  <h3>How a b Forms</h3>
+  <p>Sellers bring price down. Instead of continuing lower, buyers step in and absorb that supply at the lows. The volume built at the bottom is the footprint of that absorption. The thin area at the top reflects the fact that price moved through those levels on the way up after the absorption was complete. A base was built. Value was established. The buyers who stepped in now have a vested interest in defending those levels on any retest.</p>
+
+  <hr>
+
+  <h2>Quick Comparison</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>P-Profile</th>
+        <th>b-Profile</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Volume location</td>
+        <td><span class="p-val">Top of range</span></td>
+        <td><span class="b-val">Bottom of range</span></td>
+      </tr>
+      <tr>
+        <td>Who drove the move</td>
+        <td><span class="p-val">Shorts covering</span></td>
+        <td><span class="b-val">Real buyers absorbing</span></td>
+      </tr>
+      <tr>
+        <td>Structural conviction</td>
+        <td><span class="p-val">Weak — no base underneath</span></td>
+        <td><span class="b-val">Strong — buyers have a position to defend</span></td>
+      </tr>
+      <tr>
+        <td>Single prints location</td>
+        <td><span class="p-val">Bottom — unfilled, magnet lower</span></td>
+        <td><span class="b-val">Top — unfilled, magnet higher</span></td>
+      </tr>
+      <tr>
+        <td>Next move tendency</td>
+        <td><span class="p-val">Return to fill lower prints</span></td>
+        <td><span class="b-val">Hold lows, continue higher</span></td>
+      </tr>
+      <tr>
+        <td>Trading bias</td>
+        <td><span class="p-val">Fade rallies, look short</span></td>
+        <td><span class="b-val">Buy dips, look long</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h2>When You Want to See Each Shape</h2>
+
+  <div class="use-cards">
+    <div class="use-card bearish">
+      <div class="use-title">P in a Downtrend</div>
+      <div class="use-sub">Continuation Confirmed</div>
+      <p>Sellers still in control. Shorts just took profits temporarily. No real buyers challenged the trend. Stay short or look for a fade entry on the rollover.</p>
+    </div>
+    <div class="use-card caution">
+      <div class="use-title">P at Resistance</div>
+      <div class="use-sub">Failed Breakout Warning</div>
+      <p>Price rallies into a key level and forms a P. The move lacked conviction. Real buyers would have built value throughout the range. Short coverers left a thin, vulnerable structure instead.</p>
+    </div>
+    <div class="use-card bearish">
+      <div class="use-title">P at New Highs</div>
+      <div class="use-sub">Breakout Failure</div>
+      <p>No follow-through buying at the highs. Traders who bought the breakout are holding with no demand underneath them. Setup for a sharp reversal back into the range.</p>
+    </div>
+  </div>
+
+  <div class="use-cards">
+    <div class="use-card bullish">
+      <div class="use-title">b at Support</div>
+      <div class="use-sub">Absorption Confirmed</div>
+      <p>Price pulls back to a support level and forms a b. Buyers absorbed the selling and established a new base. Structural justification to be long — the level held for a real reason.</p>
+    </div>
+    <div class="use-card bullish">
+      <div class="use-title">b at Potential Bottom</div>
+      <div class="use-sub">Accumulation Footprint</div>
+      <p>Markets forming genuine lows show b-shaped distributions as buyers accumulate. Volume at the lows is the footprint of that process. Bounces showing only P-profiles warn you the low is not yet secure.</p>
+    </div>
+    <div class="use-card caution">
+      <div class="use-title">b on Support Retest</div>
+      <div class="use-sub">Level Defended With Conviction</div>
+      <p>A b on a retest tells you someone stepped up, absorbed supply, and defended that price. Very different from a bounce that happened only because sellers temporarily stopped selling.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>The Trap: Mistaking a P for a b</h2>
+
+  <p>The most costly mistake traders make with profile shapes is treating a P-shaped rally as if it were a b-shaped one. The price movement looks similar — both result in upward price action. But the structure underneath them is completely different.</p>
+
+  <div class="warning">
+    <span class="warning-label">⚠ Common Mistake</span>
+    <p>You see a sharp, fast rally and assume it represents genuine buying interest. You enter long at the top of a short-covering move with nothing below you. The single prints at the bottom of the P are not support — they are unfinished business. The market will likely return to fill them, and you will be on the wrong side of that move.</p>
+  </div>
+
+  <p>The discipline is to slow down and ask one question: <strong>where did the volume build?</strong> If the answer is at the top, you are looking at a P. If the answer is at the bottom, you are looking at a b. That single distinction will keep you out of a significant number of bad trades.</p>
+
+  <hr>
+
+  <h2>Putting It Together</h2>
+
+  <p>Market Profile shapes are not the entire answer. They are one layer of confluence within a broader analytical framework. But they are an exceptionally powerful layer because they tell you the <em>why</em> behind the price action, not just the <em>what</em>.</p>
+
+  <p>A P-profile in a downtrend confirms continuation. A b-profile at support confirms absorption. A P at a breakout level warns you the move is built on sand. A b at a prior low tells you real buyers have established a position worth defending.</p>
+
+  <div class="closing">
+    <p>Price action shows you where the market went. Profile shapes show you who was responsible and whether it was real. Trade the structure, not just the candles.</p>
+  </div>
+
+</body>
+</html>
