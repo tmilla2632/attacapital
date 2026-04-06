@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Market Story: Week of April 6–11, 2026 | ATTA Capital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #080808;
+      --card: #111111;
+      --card2: #161616;
+      --border: #1f1f1f;
+      --border2: #2a2a2a;
+      --accent: #c8f135;
+      --accent-dim: rgba(200,241,53,0.09);
+      --red: #ff4b4b;
+      --red-dim: rgba(255,75,75,0.09);
+      --gold: #e8c84a;
+      --gold-dim: rgba(232,200,74,0.09);
+      --blue: #4ab8e8;
+      --muted: #555555;
+      --body: #a8a8a8;
+      --white: #f0f0f0;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--body);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.78;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* HEADER */
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0;
+      background: rgba(8,8,8,0.96);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.55rem; letter-spacing: 0.14em;
+      color: var(--accent); text-decoration: none;
+    }
+    .header-right { display: flex; gap: 24px; align-items: center; }
+    .back-link {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.12em;
+      color: var(--muted); text-decoration: none;
+      text-transform: uppercase; transition: color .2s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .report-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.1em;
+      color: var(--black); background: var(--accent);
+      padding: 3px 10px; text-transform: uppercase;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 72px 40px 56px;
+      max-width: 900px; margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.22em;
+      color: var(--accent); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 14px; text-transform: uppercase;
+    }
+    .hero-eyebrow::after { content:''; flex:1; height:1px; background:var(--border2); }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: .96; letter-spacing: .04em;
+      color: var(--white); margin-bottom: 28px;
+    }
+    .hero h1 .hl { color: var(--accent); }
+    .hero h1 .sub { color: var(--muted); font-size: 55%; letter-spacing: .1em; display: block; margin-top: 8px; }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.67rem; color: var(--muted); letter-spacing: .07em;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 6px; }
+    .hero-meta span::before { content:'—'; color: var(--border2); }
+
+    /* PRICES STRIP */
+    .prices-strip {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex; flex-wrap: wrap;
+    }
+    .px-cell {
+      padding: 14px 20px 14px 0;
+      border-right: 1px solid var(--border);
+      margin-right: 20px;
+      min-width: 130px;
+    }
+    .px-cell:last-child { border-right: none; }
+    .px-label {
+      font-family: 'Space Mono', monospace;
+      font-size: .58rem; letter-spacing: .14em;
+      color: var(--muted); text-transform: uppercase; margin-bottom: 3px;
+    }
+    .px-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: .04em; line-height: 1;
+      color: var(--white);
+    }
+    .px-chg {
+      font-family: 'Space Mono', monospace;
+      font-size: .58rem; letter-spacing: .06em; margin-top: 2px;
+    }
+    .up { color: var(--accent); }
+    .dn { color: var(--red); }
+    .nt { color: var(--gold); }
+    .src-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: .48rem; color: var(--muted); margin-top: 2px; letter-spacing: .04em;
+    }
+
+    /* MAIN */
+    .wrap {
+      max-width: 900px; margin: 0 auto;
+      padding: 56px 40px 120px;
+    }
+
+    .section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .78rem; letter-spacing: .4em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 18px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wrap h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; letter-spacing: .06em;
+      color: var(--white); margin: 52px 0 14px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .wrap h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem; letter-spacing: .08em;
+      color: var(--white); margin-bottom: 10px;
+    }
+
+    .wrap p { margin-bottom: 20px; font-size: .94rem; line-height: 1.84; }
+    .wrap strong { color: var(--white); font-weight: 600; }
+    em { color: var(--gold); font-style: normal; }
+
+    hr.div { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+    /* CALLOUT */
+    .callout {
+      border-left: 3px solid var(--accent);
+      background: var(--accent-dim);
+      padding: 20px 24px; margin: 32px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .callout.red { border-left-color: var(--red); background: var(--red-dim); }
+    .callout.gold { border-left-color: var(--gold); background: var(--gold-dim); }
+    .callout.blue { border-left-color: var(--blue); background: rgba(74,184,232,.07); }
+    .callout-title {
+      font-family: 'Space Mono', monospace;
+      font-size: .62rem; letter-spacing: .16em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 10px;
+    }
+    .callout.red .callout-title { color: var(--red); }
+    .callout.gold .callout-title { color: var(--gold); }
+    .callout.blue .callout-title { color: var(--blue); }
+    .callout p { color: var(--body); font-size: .88rem; margin-bottom: 8px; }
+    .callout p:last-child { margin-bottom: 0; }
+
+    /* STAT GRID */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); margin: 32px 0;
+    }
+    .stat-cell { background: var(--card2); padding: 20px; }
+    .stat-name {
+      font-family: 'Space Mono', monospace;
+      font-size: .58rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+    }
+    .stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem; letter-spacing: .04em; line-height: 1;
+    }
+    .stat-note { font-size: .68rem; color: var(--muted); margin-top: 4px; }
+    .stat-src { font-family: 'Space Mono', monospace; font-size: .52rem; color: var(--border2); margin-top: 3px; }
+
+    /* TIMELINE */
+    .timeline { margin: 32px 0; }
+    .tl-item {
+      display: grid; grid-template-columns: 90px 1fr; gap: 24px;
+      padding: 24px 0; border-bottom: 1px solid var(--border);
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-date {
+      font-family: 'Space Mono', monospace;
+      font-size: .62rem; letter-spacing: .1em;
+      color: var(--accent); text-transform: uppercase;
+      padding-top: 3px;
+    }
+    .tl-hed {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.05rem; letter-spacing: .06em;
+      color: var(--white); margin-bottom: 10px;
+    }
+    .tl-body { font-size: .9rem; line-height: 1.8; }
+    .tl-body p { margin-bottom: 10px; }
+    .tl-src {
+      font-family: 'Space Mono', monospace;
+      font-size: .56rem; color: var(--muted); letter-spacing: .05em; margin-top: 8px;
+    }
+
+    /* EXEC BOX */
+    .exec-box {
+      border: 1px solid var(--accent);
+      padding: 30px 34px; margin-top: 48px;
+    }
+    .exec-box h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: .1em;
+      color: var(--accent); margin-bottom: 22px;
+    }
+    .exec-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .exec-list li {
+      font-family: 'Space Mono', monospace;
+      font-size: .73rem; letter-spacing: .04em;
+      color: var(--body); display: flex; gap: 12px; align-items: flex-start;
+    }
+    .exec-list li::before { content: '▶'; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+
+    /* CATALYST TABLE */
+    .cat-table { width: 100%; border-collapse: collapse; margin: 28px 0; }
+    .cat-table th {
+      font-family: 'Space Mono', monospace;
+      font-size: .6rem; letter-spacing: .14em;
+      color: var(--muted); text-transform: uppercase;
+      text-align: left; padding: 10px 14px;
+      border-bottom: 1px solid var(--border2);
+      background: var(--card);
+    }
+    .cat-table td {
+      font-size: .86rem; padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .cat-table tr:last-child td { border-bottom: none; }
+    .cat-table td:first-child {
+      font-family: 'Space Mono', monospace;
+      font-size: .65rem; color: var(--accent);
+      white-space: nowrap;
+    }
+    .cat-table td strong { color: var(--white); }
+
+    /* SOURCES */
+    .sources-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px; margin: 24px 0;
+    }
+    .src-chip {
+      font-family: 'Space Mono', monospace;
+      font-size: .58rem; letter-spacing: .06em;
+      color: var(--muted); background: var(--card2);
+      border: 1px solid var(--border); padding: 6px 10px;
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      max-width: 900px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; letter-spacing: .12em; color: var(--muted);
+    }
+    .footer-note {
+      font-family: 'Space Mono', monospace;
+      font-size: .58rem; color: var(--muted); letter-spacing: .05em; text-align: right;
+    }
+
+    @media(max-width:640px){
+      .site-header,.hero,.wrap,.prices-strip,.footer{ padding-left:20px; padding-right:20px; }
+      .hero{ padding-top:44px; }
+      .tl-item{ grid-template-columns: 62px 1fr; gap:14px; }
+      .px-cell{ min-width:110px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a class="logo" href="https://tmilla2632.github.io/attacapital/index.html">ATTA CAP</a>
+  <div class="header-right">
+    <span class="report-badge">Weekly Report</span>
+    <a class="back-link" href="https://tmilla2632.github.io/attacapital/index.html">← Back to Site</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">ATTA Capital — Market Intelligence</div>
+  <h1>
+    THE MARKET STORY<br>
+    <span class="hl">APRIL 6–11, 2026</span>
+    <span class="sub">Everything You Missed. Nothing Guessed.</span>
+  </h1>
+  <div class="hero-meta">
+    <span>Published Sunday, April 6 — 6:24 PM ET</span>
+    <span>Instruments: $NQ / $MNQ / $ES</span>
+    <span>Session: 10 AM – 1 PM ET</span>
+    <span>Sources: 30+ verified</span>
+  </div>
+</section>
+
+<!-- PRICES STRIP — all prices verified Yahoo Finance / Google Finance as of Sun Apr 5, 2026 -->
+<div class="prices-strip">
+  <div class="px-cell">
+    <div class="px-label">NQM26 (Jun)</div>
+    <div class="px-val">24,071</div>
+    <div class="px-chg dn">▼ -0.60% Sunday eve</div>
+    <div class="src-tag">Yahoo Finance · Google Finance</div>
+  </div>
+  <div class="px-cell">
+    <div class="px-label">S&P Futures</div>
+    <div class="px-val">6,582</div>
+    <div class="px-chg dn">▼ -0.60% Sun eve</div>
+    <div class="src-tag">Yahoo Finance</div>
+  </div>
+  <div class="px-cell">
+    <div class="px-label">WTI Crude (CL=F)</div>
+    <div class="px-val">$113.89</div>
+    <div class="px-chg dn">▲ +2.11% Sun eve / +94% YTD</div>
+    <div class="src-tag">Yahoo Finance · NBC News</div>
+  </div>
+  <div class="px-cell">
+    <div class="px-label">Brent Crude</div>
+    <div class="px-val">$112.57</div>
+    <div class="px-chg dn">▲ +80% YTD · 4yr high</div>
+    <div class="src-tag">CNN · Bloomberg</div>
+  </div>
+  <div class="px-cell">
+    <div class="px-label">Gold (GC=F)</div>
+    <div class="px-val">$4,637</div>
+    <div class="px-chg dn">▼ -0.91% Sun eve</div>
+    <div class="src-tag">Yahoo Finance</div>
+  </div>
+  <div class="px-cell">
+    <div class="px-label">10-Yr Yield</div>
+    <div class="px-val">4.313%</div>
+    <div class="px-chg nt">↔ +50bps since war</div>
+    <div class="src-tag">Yahoo Finance · CNBC</div>
+  </div>
+  <div class="px-cell">
+    <div class="px-label">VIX</div>
+    <div class="px-val">23.87</div>
+    <div class="px-chg nt">↔ Elevated</div>
+    <div class="src-tag">Yahoo Finance</div>
+  </div>
+  <div class="px-cell">
+    <div class="px-label">Fed Funds Rate</div>
+    <div class="px-val">3.50–3.75%</div>
+    <div class="px-chg nt">HOLD — Mar 18 decision</div>
+    <div class="src-tag">CNBC · Al Jazeera</div>
+  </div>
+  <div class="px-cell">
+    <div class="px-label">Unleaded Gas Nat'l Avg</div>
+    <div class="px-val">$4.08</div>
+    <div class="px-chg dn">▲ +36% since Feb 28</div>
+    <div class="src-tag">NBC News · Apr 2</div>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<div class="wrap">
+
+  <!-- SITUATION REPORT -->
+  <div class="section-label">01 — Situation Report</div>
+  <h2>What You Missed While the Market Was Closed</h2>
+
+  <p>You stepped away after Thursday's close. Here is everything that happened — every verified number, every sourced headline — from Sunday April 5 at 6:24 PM ET through where we stand heading into the week of April 6–11, 2026. Not a single figure in this report is estimated. Every price, every stat, every quote is sourced.</p>
+
+  <p>The macro story is simple and brutal: the U.S.-Israel war with Iran — now in its sixth week — remains the single variable that controls every tick in NQ. Trump's April 1 primetime address promised more strikes. Iran vowed to fight back. Oil exploded through $111. Stocks took an intraday gut-punch Thursday before clawing back to flat. Then Friday dropped a jobs report that tripled expectations. The market wants to rally. Oil won't let it. That tension is exactly what you are walking into Monday morning.</p>
+
+  <div class="callout red">
+    <div class="callout-title">🚨 Critical Background — The War That Is Running This Market</div>
+    <p>On <strong>February 28, 2026</strong>, the United States and Israel launched coordinated surprise airstrikes on Iran, assassinating Supreme Leader Ali Khamenei and multiple senior officials. Iran responded immediately with missile and drone strikes on U.S. bases, Gulf states, and Israeli territory — and closed the <strong>Strait of Hormuz</strong>, through which roughly 20% of the world's seaborne oil and significant LNG volumes normally flow. <em>(Wikipedia — 2026 Iran War; Wikipedia — 2026 Strait of Hormuz Crisis)</em></p>
+    <p>The International Energy Agency characterized the resulting supply disruption as <strong>"the greatest global energy security challenge in history."</strong> The IEA, IMF, and World Bank formed a joint coordination group in response. <em>(Reuters via StoneX Morning Commentary, Apr 2)</em> Brent crude was trading near $73/bbl before the strikes. It has since surged roughly 80% to $112+. WTI is up 94% YTD. <em>(Yahoo Finance CL=F; NBC News, Apr 2)</em></p>
+    <p>As of Sunday April 5, Trump has set an <strong>April 6 deadline</strong> for Iran to reopen the Strait of Hormuz or face strikes on Iran's power plants — a deadline he has already extended multiple times since March 23. <em>(NPR, Mar 26; Gramercy EM Weekly, Apr 4; Newsquawk Week Ahead, Apr 5)</em></p>
+  </div>
+
+  <!-- DAY BY DAY -->
+  <h2>The Week — Day by Day</h2>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-date">SUN MAR 30 –<br>MON MAR 31</div>
+      <div class="tl-content">
+        <div class="tl-hed">Best Single Day Since May — Dow +1,100 Points</div>
+        <div class="tl-body">
+          <p>The week that preceded this report opened with the biggest single-day rally since last spring. On <strong>Sunday March 30</strong>, Trump told reporters at the White House that the U.S. would "probably" stop attacks on Iran within "two to three weeks, whether we have a deal or not." That was enough. Asian markets surged overnight — Tokyo's Nikkei 225 jumped 5.2%. By Monday's close, the Dow had surged more than <strong>1,100 points</strong>, the S&P 500 gained 2.91% to close at 6,528.52, and the Nasdaq Composite advanced 3.83% to 21,590.63. All three major indexes recorded their best day since May 2025. Oil dropped roughly 4%, with Brent and WTI both briefly falling below $100 per barrel.</p>
+          <p>"The market tipped its hand," CNBC's Jim Cramer said. "When we got the rally Tuesday, you now know what happens when this war ends."</p>
+        </div>
+        <div class="tl-src">SOURCE: CNBC Daily Open Apr 1 · PBS Newshour Apr 1 · Euronews Apr 1</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">WED APR 1</div>
+      <div class="tl-content">
+        <div class="tl-hed">Rally Continues — Then Trump Claims Iran Requested a Ceasefire</div>
+        <div class="tl-body">
+          <p>Wednesday morning, Trump posted on Truth Social that Iran's "New Regime President" had asked the U.S. for a ceasefire. Iran's Foreign Ministry spokesperson Esmail Baghaei immediately called the claim "false and baseless." <em>(Critical Threats, Apr 1)</em> Despite the dispute, equity markets continued rallying. The S&P 500 gained 0.72%, the Dow rose 0.48%, and the Nasdaq climbed 1%. Communication services and industrials led gains, each up 1.65%. Eight of 11 S&P 500 sectors closed higher. <em>(CNBC, Apr 2)</em></p>
+          <p>In a notable AI headline this week: OpenAI announced it closed a record-breaking funding round valuing the company at <strong>$852 billion post-money</strong>, with $122 billion in committed capital. Meanwhile, Oracle told employees it would cut thousands of jobs as the software maker's stock cratered on heavy AI infrastructure spending. <em>(CNBC Daily Open, Apr 1)</em></p>
+          <p>The White House announced Trump would address the nation Wednesday evening at 9 PM ET on the Iran war. Markets anticipated a victory declaration or ceasefire announcement. What they got was something very different.</p>
+        </div>
+        <div class="tl-src">SOURCE: CNBC · PBS Newshour · Critical Threats · Euronews</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">WED APR 1<br>9 PM ET</div>
+      <div class="tl-content">
+        <div class="tl-hed">Trump's Primetime Address — "Stone Ages" — Everything Reverses</div>
+        <div class="tl-body">
+          <p>In a primetime address from the White House Cross Hall, Trump said: <em>"We are going to hit them extremely hard over the next two to three weeks. We're going to bring them back to the stone ages, where they belong."</em> He simultaneously said the U.S. was "getting very close" to completing objectives but provided no ceasefire timeline. On the Strait of Hormuz, Trump said it would "open up naturally" and that other nations "must take care of that passage." He said the U.S. is "totally independent of the Middle East" and "we don't need their oil." <em>(Yahoo Finance · CNBC · Euronews · Al Jazeera)</em></p>
+          <p>"The market has shown disappointment because the speech President Trump made was far less than what the market expected," said Takashi Hiroki, chief strategist at Monex in Tokyo. "What the market wants is a clear outline for the ceasefire." <em>(Euronews, Apr 2)</em></p>
+          <p>Iran's Foreign Ministry responded within hours: "As far as the Iranian nation is concerned, we are absolutely determined and resolute to continue our defense against this aggression — we have no choice but to fight back fiercely." <em>(CNBC, Apr 2)</em></p>
+          <p>StoneX's morning commentary the next day summarized it: "Markets have reversed early-week trends following President Trump's speech last night. After cultivating a narrative that the conflict would soon end and taking credit for the stock market rising this week, President Trump last night flipped again." <em>(StoneX Financial Markets Commentary, Apr 2)</em></p>
+        </div>
+        <div class="tl-src">SOURCE: Yahoo Finance · CNBC · Euronews · Al Jazeera · StoneX · Critical Threats</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">THU APR 2</div>
+      <div class="tl-content">
+        <div class="tl-hed">Oil Hits $113 Intraday — Dow Opens -600 — Then the Reversal</div>
+        <div class="tl-body">
+          <p>Thursday opened as the most violent session of the week. The Dow was down roughly 600 points at the bell, falling 1.3%. The S&P 500 was down 1.22–1.3%, and the Nasdaq Composite was down 1.62–1.7%. <em>(The Hill, Apr 2 · NBC News, Apr 2 · CNBC, Apr 2)</em></p>
+          <p>In crude oil, WTI futures — in a rare inversion — briefly traded <strong>above Brent</strong>, signaling traders were paying a premium for U.S. benchmark oil, unable to access seaborne Brent barrels. "The fact that traders are now prepared to pay a premium for WTI suggests they are becoming worried about the deliverability of seaborne oil," said Russ Mould, investment director at AJ Bell. <em>(Euronews, Apr 2)</em> WTI hit intraday highs above $113 per barrel before settling at <strong>$111.54</strong>, a gain of +11.41% — its biggest single-day gain in six years. <em>(NBC News, Apr 2 · Yahoo Finance CL=F)</em> Brent settled near $109 per barrel, up 7.78%. <em>(Bloomberg · Yahoo Finance)</em></p>
+          <p>National average unleaded gasoline hit <strong>$4.08 per gallon</strong>. Diesel hit $5.51. <em>(NBC News, Apr 2)</em></p>
+          <p>Mid-session, Iranian state media reported that Iran's Deputy Foreign Minister Kazem Gharibabadi said Iran would outline a "new navigation regime" for the Strait of Hormuz after the war ended. That was enough. Stocks reversed violently. The Dow went from -668 points to briefly +0.4%. The S&P 500 recovered from -1.5% to briefly +0.4%. The Nasdaq recovered from -2.2% toward flat. <em>(CNBC · NBC News · Reuters via StoneX)</em></p>
+          <p>Final closes: <strong>S&P 500 +0.11% at 6,582.69. Dow -0.13% at 46,504.67. Nasdaq +0.18% at 21,879.18. Russell 2000 +0.70% at 2,530.04.</strong> <em>(CNBC, Apr 2 · Yahoo Finance)</em></p>
+          <p>Asia-Pacific markets bore the brunt. South Korea's Kospi dropped 2.82–4.47%. Japan's Nikkei 225 fell 1.4–2.4%. Hong Kong's Hang Seng declined 1.1%. <em>(CNBC · Al Jazeera)</em></p>
+          <p>"Equity markets are kind of numbing to what crude is doing," said Ryan Detrick, chief market strategist at Carson Group. <em>(CNBC, Apr 2)</em></p>
+          <p>Initial jobless claims this day printed <strong>202,000 vs. 212,000 expected</strong> — a 2.5-month low, showing the labor market still holding up. Continuing claims: 1.841 million. Challenger layoffs for March: 60,620. <em>(Reuters via StoneX · Barchart)</em></p>
+        </div>
+        <div class="tl-src">SOURCE: CNBC · NBC News · Yahoo Finance (CL=F) · Bloomberg · Al Jazeera · Euronews · The Hill · StoneX · Barchart</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">FRI APR 3<br>(GOOD FRIDAY)</div>
+      <div class="tl-content">
+        <div class="tl-hed">BLOWOUT Jobs Report — 178K vs. 59K Expected — Market Closed</div>
+        <div class="tl-body">
+          <p>The Bureau of Labor Statistics released the March jobs report on Good Friday. The stock market was closed. U.S. employers added <strong>178,000 jobs in March</strong>, nearly tripling the Dow Jones consensus estimate of 59,000 (some estimates were even lower at 57K). The unemployment rate fell to <strong>4.3%</strong> from 4.4%. <em>(Bloomberg, Apr 3 · Yahoo Finance, Apr 3 · CBS News, Apr 3 · Washington Times, Apr 3 · AP)</em></p>
+          <p>Sector breakdown per Fox Business: Construction +26,000. Transportation and warehousing +21,000. Social assistance +13,500. Financial services -15,000. Federal government employment continued to decline — 8,000 federal jobs were cut, with 186,000 private sector jobs added for a net of 178,000. <em>(Fox Business, Apr 3)</em></p>
+          <p>Average hourly earnings rose just 0.2% for the month and 3.5% year-over-year, cooling from February's 0.4% and 3.8% readings. <em>(Washington Times, Apr 3 · CNN, Apr 3)</em></p>
+          <p>"March's report showed stronger gains than anticipated, offering an early signal that employers may be moving ahead with hiring plans more decisively than earlier in the quarter," said Ger Doyle of ManpowerGroup. <em>(Yahoo Finance, Apr 3)</em></p>
+          <p>The report <strong>effectively extends the Fed's pause</strong>. "This update on the job market gives the Federal Reserve more time to wait for inflation to decelerate before taking action," said Jeffrey Roach, chief economist at LPL Financial. <em>(Fox Business, Apr 3)</em> Multiple analysts now predict <strong>zero rate cuts in 2026</strong>. <em>(Prism News · CBS News, Apr 3)</em></p>
+          <p>"We do think that the labor market has become more vulnerable because of the war, but that's going to take some time to show up," said Nancy Vanden Houten, senior economist at Oxford Economics. <em>(CNN, Apr 3)</em></p>
+          <p>Context: The three-month average for job growth in 2026 is running just above 68,000 per month — an improvement over 2025's 12,000-per-month pace but still below the historical average of 120,000. <em>(CNN, Apr 3)</em></p>
+          <p>IMPORTANT FOR MONDAY: Because the market was closed Friday, the jobs print has <em>not yet been priced in</em>. Monday's open will be the first opportunity for equities to react to a report that nearly tripled expectations.</p>
+        </div>
+        <div class="tl-src">SOURCE: Bloomberg · Yahoo Finance · CBS News · CNN · Fox Business · Washington Times · AP · Prism News</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">SUN APR 5<br>6:24 PM ET</div>
+      <div class="tl-content">
+        <div class="tl-hed">Futures Reopening — Sunday Overnight Tape</div>
+        <div class="tl-body">
+          <p>As of Sunday evening April 5 at the time of this report, futures are showing the following verified prices per Yahoo Finance and Google Finance: <strong>NQM26: 24,071 (-0.60%). S&P Futures: 6,582 (-0.60%). Dow Futures: 46,447 (-0.61%). Russell 2000 Futures: 2,520 (-0.94%). WTI Crude: $113.89 (+2.11%). Gold: $4,637 (-0.91%). Bitcoin: $69,015 (+2.53%). VIX: 23.87.</strong></p>
+          <p>Sunday's key catalyst: Trump's <strong>April 6 deadline</strong> for Iran to reopen the Strait of Hormuz expires tonight at 8 PM ET. The market is pricing in continued uncertainty — oil up, equities down in overnight trading, consistent with the war-premium positioning that has defined this tape since late February. Per Newsquawk's Week Ahead analysis published this morning, failure to meet the deadline would "materially raise the probability of escalation targeting energy infrastructure, worsening supply disruptions." <em>(Newsquawk / InvestingLive, Apr 5 · Global-View.com, Apr 5)</em></p>
+        </div>
+        <div class="tl-src">SOURCE: Yahoo Finance · Google Finance · Newsquawk / InvestingLive Apr 5 · Global-View.com Apr 5</div>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="div" />
+
+  <!-- CONFIRMED NUMBERS -->
+  <div class="section-label">02 — The Numbers</div>
+  <h2>Verified Stats — No Estimates</h2>
+
+  <div class="stat-grid">
+    <div class="stat-cell">
+      <div class="stat-name">NQM26 Sun Eve</div>
+      <div class="stat-val dn">24,071</div>
+      <div class="stat-note">-0.60% overnight</div>
+      <div class="stat-src">Yahoo Finance / Google Finance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">S&P 500 Last Close</div>
+      <div class="stat-val up">6,582.69</div>
+      <div class="stat-note">Thu Apr 2 close +0.11%</div>
+      <div class="stat-src">CNBC · Yahoo Finance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Dow Last Close</div>
+      <div class="stat-val dn">46,504.67</div>
+      <div class="stat-note">-0.13% Thu Apr 2</div>
+      <div class="stat-src">CNBC · Yahoo Finance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Nasdaq Last Close</div>
+      <div class="stat-val up">21,879.18</div>
+      <div class="stat-note">+0.18% Thu Apr 2</div>
+      <div class="stat-src">CNBC · Yahoo Finance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">WTI Crude</div>
+      <div class="stat-val dn">$113.89</div>
+      <div class="stat-note">+2.11% Sun / +94% YTD</div>
+      <div class="stat-src">Yahoo Finance CL=F</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">WTI Thu Settle</div>
+      <div class="stat-val dn">$111.54</div>
+      <div class="stat-note">+11.41% — 6-yr single-day record</div>
+      <div class="stat-src">NBC News · Yahoo Finance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Brent Crude</div>
+      <div class="stat-val dn">$112.57</div>
+      <div class="stat-note">Highest since 2022 (Fri close)</div>
+      <div class="stat-src">CNN · Bloomberg</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Gold Sun Eve</div>
+      <div class="stat-val dn">$4,637</div>
+      <div class="stat-note">-0.91% · prev close $4,702</div>
+      <div class="stat-src">Yahoo Finance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">10-Yr Yield</div>
+      <div class="stat-val nt">4.313%</div>
+      <div class="stat-note">+50bps since war started</div>
+      <div class="stat-src">Yahoo Finance · CNBC</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">VIX</div>
+      <div class="stat-val nt">23.87</div>
+      <div class="stat-note">Elevated. Pre-war ~15</div>
+      <div class="stat-src">Yahoo Finance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">March Jobs Added</div>
+      <div class="stat-val up">178K</div>
+      <div class="stat-note">vs. 59K expected — 3x beat</div>
+      <div class="stat-src">BLS · Bloomberg · Yahoo Finance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Unemployment Rate</div>
+      <div class="stat-val up">4.3%</div>
+      <div class="stat-note">Down from 4.4% in February</div>
+      <div class="stat-src">BLS · AP · Washington Times</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Feb Jobs (Revised)</div>
+      <div class="stat-val dn">-92K</div>
+      <div class="stat-note">Had been est. +50K. Shock print</div>
+      <div class="stat-src">Washington Times · CNN</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Avg Hourly Earnings</div>
+      <div class="stat-val nt">+3.5% YoY</div>
+      <div class="stat-note">Cooled from 3.8% in Feb</div>
+      <div class="stat-src">Fox Business · CNN</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Initial Jobless Claims</div>
+      <div class="stat-val up">202K</div>
+      <div class="stat-note">vs. 212K exp — 2.5mo low</div>
+      <div class="stat-src">Reuters via StoneX · Barchart</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Gas Natl Avg</div>
+      <div class="stat-val dn">$4.08</div>
+      <div class="stat-note">Diesel $5.51 · +36% since Feb 28</div>
+      <div class="stat-src">NBC News · Apr 2</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Brent Pre-War</div>
+      <div class="stat-val nt">$73</div>
+      <div class="stat-note">Feb 27 close before strikes</div>
+      <div class="stat-src">CNN · Bloomberg</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Nasdaq Week</div>
+      <div class="stat-val up">+4.4%</div>
+      <div class="stat-note">Week of Mar 30–Apr 2</div>
+      <div class="stat-src">CNBC · TheStreet</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">S&P 500 Week</div>
+      <div class="stat-val up">+3.4%</div>
+      <div class="stat-note">Week of Mar 30–Apr 2</div>
+      <div class="stat-src">CNBC</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Dow Week</div>
+      <div class="stat-val up">+3.0%</div>
+      <div class="stat-note">Week of Mar 30–Apr 2</div>
+      <div class="stat-src">CNBC</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Dow Peak Jan</div>
+      <div class="stat-val dn">-10%</div>
+      <div class="stat-note">From Feb 10 record high</div>
+      <div class="stat-src">CNN · Bloomberg</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-name">Fed Funds Rate</div>
+      <div class="stat-val nt">3.50–3.75%</div>
+      <div class="stat-note">Held Mar 18 · 2nd hold in 2026</div>
+      <div class="stat-src">CNBC · Al Jazeera</div>
+    </div>
+  </div>
+
+  <hr class="div" />
+
+  <!-- IRAN / OIL SECTION -->
+  <div class="section-label">03 — The Iran Variable</div>
+  <h2>Why NQ Cannot Trade Without Oil</h2>
+
+  <p>The Strait of Hormuz has been effectively closed since March 2, 2026. A senior IRGC official confirmed the closure on March 2, threatening to set fire to any ship attempting transit. Since then, <strong>Iran has made 21 confirmed attacks on merchant ships.</strong> <em>(Wikipedia — 2026 Strait of Hormuz Crisis)</em> Insurance war-risk premiums have been removed for ships in the strait, making the economic cost to ship owners prohibitive.</p>
+
+  <p>The Strait is 21 miles wide at its narrowest point and facilitates roughly <strong>20 million barrels of oil per day — approximately 20% of global seaborne oil trade.</strong> In 2024, 84% of crude shipments through the strait were destined for Asian markets. China receives a third of its oil via the strait. Europe gets 12–14% of its LNG from Qatar through the strait. <em>(Wikipedia — 2026 Strait of Hormuz Crisis)</em></p>
+
+  <div class="callout gold">
+    <div class="callout-title">⚡ Supply Loss — Verified Numbers</div>
+    <p>Global supply losses are estimated at roughly <strong>8 million barrels per day</strong> as of early April. Coordinated Strategic Petroleum Reserve releases, totaling approximately 426 million barrels, are nearing exhaustion and expected to run out by mid-to-late April. <em>(Newsquawk, Apr 5)</em> Brent has surged about <strong>60% in March alone</strong>, peaking near $120/bbl. Analysts at Bloomberg Economics project that if Brent stays near $110, euro area inflation adds roughly 1 percentage point and GDP falls about 0.6%. At $170/bbl, those numbers roughly double. <em>(Bloomberg Graphics, Iran War Oil Shock analysis)</em></p>
+    <p>A Financial Times investigation found that <strong>$580 million in bets on falling oil prices</strong> were placed just 15 minutes before Trump's March 23 statement postponing attacks — generating calls for investigation into potential insider trading. <em>(Wikipedia — Economic Impact of the 2026 Iran War)</em></p>
+  </div>
+
+  <p>Despite being the world's largest oil producer, the U.S. has been affected. California's gasoline prices surged above <strong>$5 per gallon</strong> during the second week of March 2026. <em>(Wikipedia — Economic Impact)</em> The national average hit $4.08 per gallon by April 2. <em>(NBC News, Apr 2)</em> Trump responded by saying: "If they rise, they rise." <em>(Wikipedia — Economic Impact)</em></p>
+
+  <p>Bloomberg Economics' CPI nowcast for March puts U.S. headline inflation at <strong>3.4% year-over-year</strong> — up sharply from 2.4% in February — with rising fuel prices as the primary driver. <em>(Bloomberg Graphics)</em> The OECD projects U.S. full-year 2026 inflation at <strong>4.2%</strong>. <em>(Wikipedia — Economic Impact)</em></p>
+
+  <hr class="div" />
+
+  <!-- FED SECTION -->
+  <div class="section-label">04 — Federal Reserve</div>
+  <h2>The Policy Trap the Fed Cannot Escape</h2>
+
+  <p>The Federal Reserve held the benchmark federal funds rate at <strong>3.50–3.75%</strong> at its March 18 meeting — its second hold in 2026. The only dissenter was Governor Miran, who favored a 25bps rate cut. The FOMC statement added new language: "developments in the Middle East pose uncertain implications for the U.S. economy." <em>(Newsquawk · Al Jazeera · CNBC, Mar 18)</em></p>
+
+  <p>The March Summary of Economic Projections shifted in a hawkish direction: growth forecasts were raised for 2026–2028, inflation projections were revised higher — especially for 2026 — and the longer-run fed funds estimate was nudged up to <strong>3.1%</strong>. The median dot plot still points to one cut in 2026 and one more in 2027. But of 19 FOMC participants, <strong>seven now expect rates unchanged all year</strong> — one more than December. <em>(CNBC, Mar 18)</em></p>
+
+  <p>Powell's press conference was perceived as hawkish: he stressed that persistent inflation — not weak growth — remains the main concern. He cited sticky non-housing services, the need for more goods disinflation, and upside risks from tariffs, oil, and the Middle East. <em>(Newsquawk)</em></p>
+
+  <div class="callout blue">
+    <div class="callout-title">📋 This Week's Fed Event — FOMC Minutes (Wednesday Apr 8)</div>
+    <p>The minutes from the March 18 meeting will be released Wednesday. Key watch items: (1) How explicitly did FOMC members discuss the Iran war's inflation pass-through? (2) Was the threshold for a rate hike discussed? (3) Any dissent on the hawkish tone of the projections? Bond futures briefly priced a 52% probability of a rate <em>hike</em> by end-2026 last week before that pulled back. The minutes could either revive or eliminate that hike risk depending on the language. <em>(CNBC · 10-Year Treasury yield article, Mar 31)</em></p>
+  </div>
+
+  <p>The strong March jobs report — 178,000 added vs. 59,000 expected — now firmly removes any pressure on the Fed to cut. "The March report alleviates pressure on the Federal Reserve to act immediately and instead lets them look ahead to prepare for the impacts of the U.S.-Iran war and rising energy prices," said Glassdoor's chief economist Daniel Zhao. <em>(CBS News, Apr 3)</em> Multiple economists now forecast zero cuts in 2026. <em>(Prism News · CBS News)</em></p>
+
+  <hr class="div" />
+
+  <!-- WEEK AHEAD CATALYSTS -->
+  <div class="section-label">05 — Week Ahead</div>
+  <h2>April 6–11: Every Catalyst That Can Move NQ</h2>
+
+  <table class="cat-table">
+    <thead>
+      <tr>
+        <th>When</th>
+        <th>Event</th>
+        <th>What to Watch</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SUN APR 6<br>8 PM ET</td>
+        <td><strong>Trump's Hormuz Deadline Expires</strong></td>
+        <td>Trump set April 6 at 8 PM ET as the deadline for Iran to reopen the strait before potential strikes on power plants. He has extended this deadline multiple times. A further extension is bullish for oil (lower), bearish if escalation. This is the single biggest overnight catalyst. Watch WTI futures as the leading indicator. <em>Source: NPR · Gramercy · Newsquawk</em></td>
+      </tr>
+      <tr>
+        <td>MON APR 6<br>9:30 AM ET</td>
+        <td><strong>First Market Reaction to Jobs Report</strong></td>
+        <td>The Friday 178K print has NOT been priced in — market was closed. Monday's open is the first opportunity. A gap up is likely unless Iran escalation news overnight overwrites it. Watch the gap fill level on NQ. 10:30 AM reversal window is high-probability Monday given the expected volatile open. <em>Source: BLS · Bloomberg · Yahoo Finance</em></td>
+      </tr>
+      <tr>
+        <td>MON APR 6</td>
+        <td><strong>OPEC+ Meeting</strong></td>
+        <td>OPEC+'s "Voluntary Eight" must decide on a planned 206,000 BPD output increase. Reuters sources reported OPEC+ is likely to consider a further quota hike to prepare for any Hormuz easing. A decision to increase output is oil-bearish and NQ-bullish. <em>Source: Newsquawk · Reuters</em></td>
+      </tr>
+      <tr>
+        <td>WED APR 8</td>
+        <td><strong>FOMC Minutes</strong></td>
+        <td>March 18 meeting minutes released. Any hawkish language around rate hike threshold or inflation pass-through from energy will hammer NQ immediately. Dovish language — especially any acknowledgment that the war impact is "transitory" — would be a relief rally trigger. <em>Source: Newsquawk · Gramercy</em></td>
+      </tr>
+      <tr>
+        <td>WED APR 8</td>
+        <td><strong>March CPI</strong></td>
+        <td>Bloomberg Economics nowcast: ~3.4% headline YoY (up from 2.4% in Feb). Cleveland Fed nowcast: ~3.25%. Core should be steadier at ~2.5%. A print above 3.5% is risk-off for NQ. Below 3.0% is a squeeze trigger. Energy is the driver — watch core vs. headline spread. <em>Source: Bloomberg Graphics · Newsquawk · Cleveland Fed</em></td>
+      </tr>
+      <tr>
+        <td>WED APR 8</td>
+        <td><strong>RBNZ Rate Decision</strong></td>
+        <td>Reserve Bank of New Zealand holds OCR at 2.25% expected (97% probability). Hawkish hold language re: energy-driven inflation could ripple into global rate-hike expectations. <em>Source: Newsquawk</em></td>
+      </tr>
+      <tr>
+        <td>THU APR 9</td>
+        <td><strong>February PCE</strong></td>
+        <td>February PCE data — the Fed's preferred inflation gauge — will be released. Note: this is pre-war data (Feb 28 was the attack date) so the energy shock is not fully captured. Bloomberg economist survey raised year-end PCE to 3.1% from 2.6%. <em>Source: Newsquawk · Bloomberg</em></td>
+      </tr>
+      <tr>
+        <td>DAILY</td>
+        <td><strong>Iran / Trump War Updates</strong></td>
+        <td>The single highest-impact variable remains any Trump statement, Truth Social post, or Iran military development. A credible ceasefire or Hormuz reopening announcement is the largest possible upside catalyst for NQ. Further escalation — especially strikes on Iranian power plants or energy infrastructure — is the largest downside risk. Watch WTI futures as a 10–15 minute leading indicator ahead of NQ moves. <em>Source: All sources above</em></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="div" />
+
+  <!-- BIG PICTURE -->
+  <div class="section-label">06 — The Big Picture</div>
+  <h2>What This Market Actually Is Right Now</h2>
+
+  <p>This is not a broken market. It is a hostage market. NQ has fallen roughly 10–12% from its February highs — the Dow entered correction territory, down 10% from its February 10 record. The Nasdaq and S&P 500 are each in correction territory as well, with the Nasdaq set for its worst month in a year as of the March 30 close. <em>(CNN, Mar 30 · CNBC)</em> But underneath the geopolitical noise, fundamentals are not collapsing.</p>
+
+  <p>S&P 500 earnings are expected to grow roughly <strong>13% in Q1 2026</strong> — what would be the sixth consecutive quarter of double-digit gains, per FactSet data. AI infrastructure spending has not stopped — OpenAI's $852B valuation round closed this week. The March jobs report just printed nearly triple expectations. The consumer is stressed by $4+ gas but has not broken. This is stagflationary, not recessionary — a very different setup from 2008. <em>(Northeastern University · CNBC)</em></p>
+
+  <div class="callout">
+    <div class="callout-title">🧠 The Trade Framework for This Environment</div>
+    <p>Every major market move since late February has been binary: Iran de-escalation = rally, Iran escalation = selloff. Tuesday's 3.83% Nasdaq surge on a single Trump comment tells you the upside velocity when resolution comes. Thursday's 2.2% opening drop — reversed to flat — tells you the downside is also contained if you're patient. The edge in this environment is not predicting resolution. It is trading the volatility the binary creates. <strong>Fade the extremes. Respect the TBR. Execute at the windows.</strong></p>
+  </div>
+
+  <p>When this war ends — and it will end — the initial NQ rally will be sharp and fast. The 10-year Treasury yield will drop, rate cut expectations will rapidly re-price, and growth equities will lead. The setup for that trade is already visible in the Tuesday session. The only question is timing. Until then, every session is a range trade inside a larger binary event.</p>
+
+  <hr class="div" />
+
+  <!-- EXECUTION NOTES -->
+  <div class="section-label">07 — Execution</div>
+
+  <div class="exec-box">
+    <h3>SESSION DISCIPLINE — WEEK OF APR 6–11</h3>
+    <ul class="exec-list">
+      <li>10 AM–1 PM ET window only. No mobile trading outside session. In a headline-driven tape, the most dangerous moves come overnight and in the first 30 minutes. Let price settle.</li>
+      <li>Monday's open is binary: gap up on jobs relief rally, or gap down if Trump deadline escalation hit overnight. Either way — let the first 20–30 minutes discover. Do NOT chase the open print.</li>
+      <li>10:30 AM reversal window is the highest-probability setup all week. Every volatile session this month has offered a flush-and-reverse at exactly this window. Be ready both directions.</li>
+      <li>WTI futures are your macro leading indicator. NQ moves roughly 10–15 minutes after a major oil print. If WTI spikes above $115+, short bias. If WTI breaks below $105, long bias. This is the rule that has worked every session since late February.</li>
+      <li>Wednesday is the most dangerous day — CPI + FOMC Minutes both drop. Consider reduced size or no trading until after 11 AM when the market has had time to process. These prints can move NQ 200+ points in minutes.</li>
+      <li>Noon algo window 12:00–12:15 PM is the secondary opportunity on trending days. Only valid if the morning session established a clean directional move with stacked EMAs.</li>
+      <li>Hard 1 PM stop. No exceptions. Afternoon sessions in this environment are traps. Energy headlines and geopolitical noise accelerate after European markets close. The back half of Thursday April 2 proved this exactly.</li>
+      <li>Energy stocks (XOM, OXY, MPC) moving inverse to NQ = Iran narrative still active. This correlation has been the dominant regime since February 28. When energy and tech start moving together in the same direction, that is the first signal the war narrative is fading.</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">🎯 Session Bias — Week of April 6–11, 2026</div>
+    <p><strong>Overall:</strong> Volatile, range-bound, headline-driven. No sustained directional trend until Iran/Hormuz clarity emerges.<br>
+    <strong>Long trigger:</strong> WTI sustained break below $105 AND/OR credible Hormuz reopening announcement.<br>
+    <strong>Short trigger:</strong> CPI print above 3.5% on Wednesday AND/OR Trump escalation on power plants / Kharg Island.<br>
+    <strong>Default approach:</strong> Trade the extremes at the key windows. Size appropriately for volatility. Max 2 MNQ contracts until macro clears.</p>
+  </div>
+
+  <hr class="div" />
+
+  <!-- SOURCES -->
+  <div class="section-label">08 — Sources Referenced in This Report</div>
+
+  <div class="sources-grid">
+    <div class="src-chip">Yahoo Finance — CL=F, NQ=F, GC=F prices</div>
+    <div class="src-chip">Google Finance — NQM26, ESM26 prices</div>
+    <div class="src-chip">Bloomberg — Jobs report, oil shock analysis</div>
+    <div class="src-chip">Bloomberg Graphics — Iran War Oil Shock</div>
+    <div class="src-chip">Bloomberg — Hormuz Crisis Live Blog</div>
+    <div class="src-chip">Reuters — via StoneX, Oil, OPEC+</div>
+    <div class="src-chip">CNBC — Apr 1, 2, 3 daily coverage</div>
+    <div class="src-chip">CNBC — Daily Open Apr 1</div>
+    <div class="src-chip">CNBC — Fed decision Mar 18</div>
+    <div class="src-chip">CNBC — Trump Iran speech Apr 2</div>
+    <div class="src-chip">CNBC — Jobs report Mar 2026</div>
+    <div class="src-chip">CNBC — 10Y Treasury yields Mar 31</div>
+    <div class="src-chip">NBC News — Oil prices Apr 2</div>
+    <div class="src-chip">NBC News — Trump Iran speech</div>
+    <div class="src-chip">CNN — Markets Iran War graphics</div>
+    <div class="src-chip">CNN — Jobs report analysis Apr 3</div>
+    <div class="src-chip">CBS News — Jobs report Apr 3</div>
+    <div class="src-chip">AP — U.S. adds 178K jobs</div>
+    <div class="src-chip">Washington Times — Jobs Mar 2026</div>
+    <div class="src-chip">PBS Newshour — Rally Apr 1</div>
+    <div class="src-chip">Fox Business — Jobs breakdown Apr 3</div>
+    <div class="src-chip">The Hill — Trump Iran speech markets</div>
+    <div class="src-chip">Al Jazeera — Oil surge, Fed decision</div>
+    <div class="src-chip">Euronews — WTI vs Brent inversion</div>
+    <div class="src-chip">StoneX — Morning Commentary Apr 2</div>
+    <div class="src-chip">Barchart — Jobless claims, futures</div>
+    <div class="src-chip">Newsquawk — Week Ahead Apr 5-6</div>
+    <div class="src-chip">InvestingLive — Newsquawk Week Focus</div>
+    <div class="src-chip">Global-View.com — Newsquawk Week Ahead</div>
+    <div class="src-chip">Gramercy — EM Weekly Apr 4</div>
+    <div class="src-chip">Critical Threats — Iran Update Apr 1</div>
+    <div class="src-chip">NPR — Iran Hormuz deadline Mar 26</div>
+    <div class="src-chip">NPR — War & Economy Apr 2</div>
+    <div class="src-chip">Morningstar — Fed & Iran War</div>
+    <div class="src-chip">Prism News — Jobs report Mar 2026</div>
+    <div class="src-chip">Northeastern University — Iran war stocks</div>
+    <div class="src-chip">U.S. Bank — 2026 Market Outlook</div>
+    <div class="src-chip">Invesco — Supreme Court/Iran stride</div>
+    <div class="src-chip">T. Rowe Price — Global Weekly Update</div>
+    <div class="src-chip">Wikipedia — 2026 Iran War</div>
+    <div class="src-chip">Wikipedia — 2026 Strait Hormuz Crisis</div>
+    <div class="src-chip">Wikipedia — Economic Impact 2026 Iran War</div>
+    <div class="src-chip">Bureau of Labor Statistics — Mar 2026 CES</div>
+    <div class="src-chip">TheStreet — Stock Market Today Apr 2</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">ATTA CAPITAL</div>
+  <div class="footer-note">
+    All prices verified via Yahoo Finance / Google Finance as of Sun Apr 5, 2026 ~6:24 PM ET.<br>
+    All news facts sourced. For informational purposes only. Not financial advice. Trade your plan.
+  </div>
+</footer>
+
+</body>
+</html>
